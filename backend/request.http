@@ -1,0 +1,233 @@
+POST http://localhost:6546/api/jobs
+Content-Type: application/json
+
+{
+    "tokenId": "101546800588531117961",
+    "recruiterEmail": "recruiter42@example.com",
+    "subRecruiterEmail": "sub42@example.com",
+    "jobName": "Mid-level Data Scientist [Python]",
+    "jobQualification": "Bachelor's Degree in Data Science, Computer Science, or equivalent experience",
+    "jobSalary": "$85,000/year",
+    "jobDescription": "Build and deploy data models, analyze trends, and generate insights to support decision-making processes using Python.",
+    "role": "Mid-level",
+    "timePeriod": "Full-time",
+    "location": "San Francisco",
+    "skills": ["Python", "Machine Learning", "Data Analysis", "Big Data Technologies"],
+    "experience": "3-4 years in data science",
+    "benefits": "401(k) matching, Health benefits, Flexible working hours",
+    "questions": [
+      { "question": "What is the purpose of data wrangling in data science?", "options": ["Data wrangling involves cleaning and transforming raw data into a usable format for analysis", "Data wrangling is used for data visualization", "Data wrangling is used to increase dataset size", "None of the above"], "correctOption": "Data wrangling involves cleaning and transforming raw data into a usable format for analysis" },
+      { "question": "Explain the concept of ensemble learning.", "options": ["Ensemble learning combines predictions from multiple models to improve overall performance", "Ensemble learning involves using a single model for predictions", "Ensemble learning is used for data collection", "None of the above"], "correctOption": "Ensemble learning combines predictions from multiple models to improve overall performance" },
+      { "question": "What is a confusion matrix, and how is it used in model evaluation?", "options": ["A confusion matrix is a table used to evaluate the performance of classification models by comparing predicted and actual values", "A confusion matrix is used for data cleaning", "A confusion matrix is a type of neural network", "None of the above"], "correctOption": "A confusion matrix is a table used to evaluate the performance of classification models by comparing predicted and actual values" },
+      { "question": "How do you handle imbalanced datasets in a classification problem?", "options": ["By using techniques like oversampling, undersampling, or generating synthetic data", "By ignoring the imbalance", "By increasing the number of features", "None of the above"], "correctOption": "By using techniques like oversampling, undersampling, or generating synthetic data" },
+      { "question": "What is the significance of feature scaling in machine learning models?", "options": ["Feature scaling helps standardize the range of features, which improves the performance and convergence of models", "Feature scaling is used for data augmentation", "Feature scaling is not important", "None of the above"], "correctOption": "Feature scaling helps standardize the range of features, which improves the performance and convergence of models" }
+    ],
+    "applicable": 3,
+    "referral": 5,
+    "applyLink": "https://example.com/apply/midlevel-data-scientist",
+    "takenTests": []
+}
+
+###
+
+POST http://localhost:6546/api/jobs
+Content-Type: application/json
+
+{
+  "tokenId": "101546800588531117961",
+  "recruiterEmail": "cloud_recruiter2@company.com",
+  "subRecruiterEmail": "cloud_subrecruiter2@company.com",
+  "jobName": "Senior DevOps Engineer",
+  "jobQualification": "Bachelor's or Master's degree in Computer Science or related field. 5+ years of experience in DevOps practices and cloud technologies.",
+  "jobSalary": "$120,000 - $160,000 per year",
+  "jobDescription": "We are looking for an experienced Senior DevOps Engineer to lead our DevOps initiatives and drive continuous improvement in our development and operations processes. You will be responsible for designing and implementing robust CI/CD pipelines, managing cloud infrastructure, and fostering a culture of automation and reliability. The ideal candidate will have a strong background in both development and operations, with expertise in cloud platforms and DevOps tools.",
+  "role": "Senior",
+  "timePeriod": "Full-time",
+  "location": "Remote",
+  "skills": ["AWS/Azure/GCP", "Kubernetes", "Terraform", "Ansible", "Jenkins", "Git", "Monitoring tools", "Scripting (Python, Bash)"],
+  "experience": "5+ years",
+  "benefits": "Competitive salary, comprehensive health insurance, 401(k) with 6% match, stock options, remote work, conference attendance budget",
+  "questions": [
+    {
+      "question": "Explain the concept of Infrastructure as Code (IaC) and its benefits.",
+      "options": ["Version control", "Reproducibility", "Scalability", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "What strategies would you use to implement a zero-downtime deployment?",
+      "options": ["Blue-Green deployment", "Canary releases", "Rolling updates", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "How would you approach setting up a robust monitoring and alerting system for a microservices architecture?",
+      "options": ["Distributed tracing", "Log aggregation", "Metrics collection", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "Describe the benefits and challenges of implementing a GitOps workflow.",
+      "options": ["Automated deployments", "Version control for infrastructure", "Rollback capability", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "How would you ensure security in a CI/CD pipeline?",
+      "options": ["Secret management", "Static code analysis", "Container scanning", "All of the above"],
+      "correctOption": "All of the above"
+    }
+  ],
+  "applicable": 3,
+  "referral": 5,
+  "applyLink": "https://company.com/careers/senior-devops-engineer"
+}
+
+###
+
+POST http://localhost:6546/api/jobs
+Content-Type: application/json
+
+{
+  "tokenId": "101546800588531117961",
+  "recruiterEmail": "cloud_recruiter3@company.com",
+  "subRecruiterEmail": "cloud_subrecruiter3@company.com",
+  "jobName": "Cloud Solutions Architect",
+  "jobQualification": "Bachelor's or Master's degree in Computer Science or related field. 7+ years of experience in cloud architecture and solutions design.",
+  "jobSalary": "$130,000 - $180,000 per year",
+  "jobDescription": "We are seeking a skilled Cloud Solutions Architect to design and implement innovative cloud solutions for our clients. In this role, you will work closely with stakeholders to understand business requirements, create high-level solution designs, and provide technical leadership throughout the implementation process. The ideal candidate will have a deep understanding of cloud services, strong problem-solving skills, and excellent communication abilities.",
+  "role": "Senior",
+  "timePeriod": "Full-time",
+  "location": "On-site",
+  "skills": ["AWS/Azure/GCP", "Solution design", "Microservices", "Serverless architecture", "Cloud security", "Cost optimization", "Performance tuning"],
+  "experience": "7+ years",
+  "benefits": "Competitive salary, comprehensive health insurance, 401(k) with 7% match, stock options, professional certification support, flexible work hours",
+  "questions": [
+    {
+      "question": "How would you approach designing a highly available and scalable web application on a cloud platform?",
+      "options": ["Load balancing", "Auto-scaling", "Multi-AZ deployment", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "Explain the benefits and use cases of serverless architecture.",
+      "options": ["Cost efficiency", "Scalability", "Reduced operational overhead", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "How would you design a multi-region disaster recovery solution?",
+      "options": ["Data replication", "Traffic routing", "Automated failover", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "Describe strategies for optimizing cloud costs without compromising performance.",
+      "options": ["Right-sizing", "Reserved instances", "Spot instances", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "How would you ensure compliance and security in a multi-cloud environment?",
+      "options": ["Identity federation", "Encryption", "Policy enforcement", "All of the above"],
+      "correctOption": "All of the above"
+    }
+  ],
+  "applicable": 3,
+  "referral": 5,
+  "applyLink": "https://company.com/careers/cloud-solutions-architect"
+}
+
+###
+
+POST http://localhost:6546/api/jobs
+Content-Type: application/json
+
+{
+  "tokenId": "101546800588531117961",
+  "recruiterEmail": "cloud_recruiter4@company.com",
+  "subRecruiterEmail": "cloud_subrecruiter4@company.com",
+  "jobName": "Site Reliability Engineer (SRE)",
+  "jobQualification": "Bachelor's or Master's degree in Computer Science or related field. 3+ years of experience in software engineering and systems administration.",
+  "jobSalary": "$100,000 - $140,000 per year",
+  "jobDescription": "We are looking for a talented Site Reliability Engineer to join our operations team. In this role, you will be responsible for designing, building, and maintaining the infrastructure and tools that ensure the reliability and performance of our services. You will work closely with development teams to implement best practices for scalability, monitoring, and incident response.",
+  "role": "Mid-level",
+  "timePeriod": "Full-time",
+  "location": "Remote",
+  "skills": ["Linux/Unix", "Cloud platforms (AWS/GCP/Azure)", "Kubernetes", "Monitoring tools", "Scripting (Python, Go)", "Incident management", "Performance tuning"],
+  "experience": "3+ years",
+  "benefits": "Competitive salary, health and dental insurance, 401(k) with 5% match, remote work option, on-call compensation, continuous learning budget",
+  "questions": [
+    {
+      "question": "Explain the concept of error budgets in SRE practice.",
+      "options": ["Reliability target", "Performance metric", "Cost allocation", "Time management"],
+      "correctOption": "Reliability target"
+    },
+    {
+      "question": "How would you implement a robust logging and monitoring system for a distributed application?",
+      "options": ["Centralized logging", "Distributed tracing", "Alerting rules", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "Describe strategies for conducting effective post-mortem analyses after incidents.",
+      "options": ["Root cause analysis", "Blameless culture", "Action item tracking", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "How would you approach capacity planning for a rapidly growing service?",
+      "options": ["Trend analysis", "Load testing", "Predictive modeling", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "Explain the concept of chaos engineering and its benefits.",
+      "options": ["Proactive testing", "System resilience", "Failure mode discovery", "All of the above"],
+      "correctOption": "All of the above"
+    }
+  ],
+  "applicable": 3,
+  "referral": 5,
+  "applyLink": "https://company.com/careers/site-reliability-engineer"
+}
+
+###
+
+POST http://localhost:6546/api/jobs
+Content-Type: application/json
+
+{
+  "tokenId": "101546800588531117961",
+  "recruiterEmail": "cloud_recruiter5@company.com",
+  "subRecruiterEmail": "cloud_subrecruiter5@company.com",
+  "jobName": "Cloud Security Engineer",
+  "jobQualification": "Bachelor's or Master's degree in Computer Science, Information Security, or related field. 4+ years of experience in cloud security and compliance.",
+  "jobSalary": "$110,000 - $150,000 per year",
+  "jobDescription": "We are seeking a skilled Cloud Security Engineer to ensure the security and compliance of our cloud infrastructure and applications. In this role, you will be responsible for implementing security best practices, conducting security assessments, and developing automated security controls. You will work closely with development and operations teams to integrate security throughout the software development lifecycle.",
+  "role": "Mid-level",
+  "timePeriod": "Full-time",
+  "location": "On-site",
+  "skills": ["Cloud security (AWS/Azure/GCP)", "Identity and Access Management", "Encryption", "Network security", "Compliance frameworks (e.g., SOC 2, HIPAA)", "Security automation", "Threat modeling"],
+  "experience": "4+ years",
+  "benefits": "Competitive salary, comprehensive health insurance, 401(k) with 6% match, stock options, professional certification support, flexible work hours",
+  "questions": [
+    {
+      "question": "How would you implement a least privilege access model in a cloud environment?",
+      "options": ["Role-based access control", "Just-in-time access", "Regular access reviews", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "Explain the concept of DevSecOps and its importance in cloud security.",
+      "options": ["Security automation", "Shift-left approach", "Continuous monitoring", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "How would you secure data in transit and at rest in a cloud environment?",
+      "options": ["Encryption", "VPN", "Tokenization", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "Describe strategies for detecting and responding to security incidents in the cloud.",
+      "options": ["Log analysis", "Threat intelligence", "Automated response", "All of the above"],
+      "correctOption": "All of the above"
+    },
+    {
+      "question": "How would you ensure compliance with data protection regulations (e.g., GDPR) in a cloud environment?",
+      "options": ["Data classification", "Access controls", "Audit trails", "All of the above"],
+      "correctOption": "All of the above"
+    }
+  ],
+  "applicable": 3,
+  "referral": 5,
+  "applyLink": "https://company.com/careers/cloud-security-engineer"
+}
