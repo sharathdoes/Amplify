@@ -101,16 +101,16 @@ export default function Recruit() {
   };
 
   return (
-    <section className="relative w-full py-8 md:py-20 lg:py-28 xl:py-40 overflow-hidden ">
+    <section className="relative bg-gray-50 w-full min-h-screen pt-56 overflow-hidden ">
       <div className="absolute inset-0 bg-gradient-to-br animate-gradient-xy"></div>
-      <div className="container relative z-10 px-4 md:px-6">
+      <div className="container relative z-10  ">
         <motion.div
           className="flex flex-col lg:grid lg:grid-cols-7 lg:gap-x-8 xl:gap-x-12 lg:items-center"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.div className="lg:col-span-3 mt-[-40px]" variants={itemVariants}>
+          <motion.div className="lg:col-span-3 " variants={itemVariants}>
             <h1 className="text-4xl mr-40 font-bold tracking-tighter sm:text-5xl text-center mb-4 animate__animated animate__fadeInDown">
               Recruiter Sign-in
             </h1>

@@ -144,7 +144,7 @@ export default function Jobinput() {
 
   return (
     <div>
-      <div className="space-y-2">
+      <div className="space-y-2 pt-32">
         <h1 className="text-2xl mr-48 font-bold tracking-tighter sm:text-4xl text-center mb-4 animate__animated animate__fadeInDown">
           Hello, Recruiter from {userInfo.companyName}!
         </h1>

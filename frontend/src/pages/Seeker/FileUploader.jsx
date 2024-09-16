@@ -197,14 +197,14 @@ function FileUploader({ setResult }) {
         </div>
         <Button
           onClick={handleUpload}
-          className={`w-full ${isSignedIn ? 'bg-black text-white' : 'bg-gray-100 text-gray-800 hover:bg-gray-200 '} transition-colors duration-300`}
+          className={`w-full ${isSignedIn ? 'bg-black text-white' : 'bg-gray-200 text-gray-800 hover:bg-gray-200 '} transition-colors duration-300`}
         >
           Submit Application
         </Button>
       </div>
 
       {/* Sign-In Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
+      <Dialog  className="bg-gray-50" open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Sign In to Continue</DialogTitle>

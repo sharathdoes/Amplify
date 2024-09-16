@@ -32,29 +32,29 @@ function UserDashboard() {
   const shouldDisplayRoles = SeekerInfo && SeekerInfo.tokenID && SeekerInfo.name;
 
   return (
-    <div className="min-h-screen flex flex-col">
-      <header className="pt-20 px-4">
-        <h1 className="text-4xl font-bold tracking-tighter sm:text-5xl text-center animate__animated animate__fadeInDown mb-4">
+    <div className="flex min-h-screen  flex-col items-center bg-gray-50 ">
+      <header className="w-full max-w-3xl mx-auto text-center">
+        <h1 className="text-4xl mt-44 font-bold tracking-tighter sm:text-5xl animate__animated animate__fadeInDown mb-4">
           Upload your existing resume
         </h1>
-        <p className="text-lg text-gray-600 text-center mt-8">
+        <h1 className="text-lg text-gray-600 mt-8">
           Browse the job listings, but note that a mock test is necessary for either a referral or application.
-        </p>
+        </h1>
 
-        <div className="text-lg text-gray-600 text-center mt-4">
+        <div className="text-lg text-gray-600 mt-1">
           <span>After you click submit, </span>
           <span className="font-bold">wait a few seconds </span>
-          <span>for resume analysis </span>
+          <span>for resume analysis in toast.</span>
         </div>
 
-        <div className="flex-grow flex items-center justify-center mt-8">
+        <div className="flex items-center justify-center mt-8">
           <FileUploader setResult={setResult} />
         </div>
 
         {/* Conditionally render roles based on SeekerInfo */}
         {shouldDisplayRoles && roles.length > 0 && (
-          <div className="mt-8 text-center">
-            <p className="text-lg text-gray-600 text-center mt-8">Choose a suitable role</p>
+          <div className="mt-8">
+            <p className="text-lg text-gray-600 mt-8">Choose a suitable role</p>
             <div className="mt-4 flex flex-col items-center">
               {roles.map((role, index) => (
                 <Button

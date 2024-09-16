@@ -60,7 +60,7 @@ export default function JobDashboard() {
   };
   
   return (
-    <div className="container mx-auto p-6 max-w-4xl">
+    <div className="container pt-36 mx-auto p-6 max-w-4xl">
       <header className="mb-8 text-center">
         <h1 className="text-4xl font-bold text-primary mb-2">Hi, {companyName}!</h1>
         <p className="text-xl text-muted-foreground">Here are your previous job postings</p>

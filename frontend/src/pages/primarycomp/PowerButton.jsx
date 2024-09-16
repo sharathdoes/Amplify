@@ -28,7 +28,7 @@ const PowerButton = () => {
     // Check if the current path does not include '/recruit'
     if (!currentPath.includes('/recruit')) {
       // Redirect to /resume
-      navigate('/resume', { replace: true });
+      navigate('/', { replace: true });
       window.location.reload();
 
     }
