@@ -14,8 +14,8 @@ import {
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { apiClient } from "@/lib/apiClient";
-import {toast} from "sonner";
-export function FeedbackDrawer() {
+import { toast } from "sonner";
+export  default function FeedbackDrawer() {
   const [feedback, setFeedback] = useState("");
   const [rating, setRating] = useState(0);
 
@@ -23,25 +23,30 @@ export function FeedbackDrawer() {
   const handleFeedbackChange = (e) => setFeedback(e.target.value);
   const handleSubmit = async () => {
     try {
-      const response = await apiClient.post("http://localhost:6546/api/feedback", {
-        rating,
-        feedback,
-      });
-  
+      const response = await apiClient.post(
+        "http://localhost:6546/api/feedback",
+        {
+          rating,
+          feedback,
+        }
+      );
+
       if (response.status === 201) {
-        toast.success('Feedback submitted!', {
+        toast.success("Feedback submitted!", {
           duration: 4000, // Duration of the toast in milliseconds
-        });      }
+        });
+      }
     } catch (error) {
-      console.error('Failed to submit feedback:', error);
+      console.error("Failed to submit feedback:", error);
     }
   };
 
   return (
     <Drawer>
       <DrawerTrigger asChild>
-        <Button className="fixed bottom-8 right-8 text-black border-2  bg-white rounded-full p-4 hover:bg-gray-100 transition duration-300">
-feedback        </Button>
+        <Button className=" bottom-8 right-8 text-black border-2  bg-gray-50 rounded-full p-4 hover:bg-gray-100 transition duration-300">
+          feedback{" "}
+        </Button>
       </DrawerTrigger>
       <DrawerContent className="pb-4">
         <div className="mx-auto w-full max-w-md">

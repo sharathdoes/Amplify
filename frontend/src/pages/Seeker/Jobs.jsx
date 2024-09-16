@@ -32,7 +32,7 @@ export default function JobComponent() {
   const [isRemote, setIsRemote] = useState(false); // For remote filter
   const setSeekerInfo = useAppStore((state) => state.setSeekerInfo);
   const { SeekerInfo } = useAppStore();
-  
+  console.log(SeekerInfo);
   useEffect(() => {
     fetchJobs(); // Fetch jobs on component mount
   }, []);
@@ -135,9 +135,9 @@ export default function JobComponent() {
   };
 
   return (
-    <div className="flex h-screen w-full">
+    <div className="flex mt-12 bg-gray-50 h-screen w-full">
       {/* First Column: Filters and Search (20% width) */}
-      <div className="w-[20%] p-4 flex flex-col space-y-4 border-r">
+      <div className="w-[20%] p-4 mt-8 flex flex-col space-y-4 border-r">
         {/* Search Bar */}
         <div className="flex items-center space-x-2 mb-4">
           <Input
@@ -153,7 +153,7 @@ export default function JobComponent() {
         </div>
 
         {/* Filters */}
-        <div className="p-4 rounded-md shadow-sm">
+        <div className="p-4 rounded-md bg-white shadow-sm">
           <h3 className="text-sm font-semibold mb-2">Filters</h3>
 
           {/* Job Level Filter */}
@@ -201,8 +201,8 @@ export default function JobComponent() {
       </div>
 
       {/* Second Column: Jobs List (35% width) */}
-      <div className="w-[35%] p-4 flex flex-col space-y-4 border-r">
-        <Card className="flex-grow overflow-hidden">
+      <div className="w-[35%] p-4 flex flex-col  bg-gray-50 space-y-4 border-r">
+        <Card className="flex-grow overflow-hidden bg-gray-50">
           <CardHeader>
             <CardTitle>Jobs</CardTitle>
           </CardHeader>
@@ -216,7 +216,7 @@ export default function JobComponent() {
                     <Card
                       key={job._id}
                       className={`cursor-pointer ${
-                        selectedJob?._id === job._id ? "bg-gray-100" : ""
+                        selectedJob?._id === job._id ? "bg-gray-50" : ""
                       }`}
                       onClick={() => setSelectedJob(job)}
                     >
@@ -236,8 +236,8 @@ export default function JobComponent() {
 
       {/* Third Column: Job Details (45% width) */}
       {selectedJob && (
-  <div className="w-[45%] p-4">
-    <Card className="h-full overflow-hidden">
+  <div className="w-[45%] bg-gray-50 p-4">
+    <Card className="h-full bg-gray-50  overflow-hidden">
       <CardHeader>
         <CardTitle>Job Details</CardTitle>
       </CardHeader>

@@ -39,7 +39,7 @@ roles = {
     'Blockchain Developer': 'Experience with blockchain technologies, smart contracts, and decentralized applications.',
     'Game Developer': 'Experience with game development engines such as Unity or Unreal Engine, and knowledge of 3D modeling or animation.',
     'Frontend Developer': 'Experience with frontend technologies such as React, Angular, or Vue, and building responsive user interfaces.',
-    'Artificial Intelligence Engineer': 'Experience with AI models, neural networks, and implementing intelligent systems for automation and optimization.',
+    'Artificial Intelligence Engineer AI': 'Experience with AI models, neural networks, and implementing intelligent systems for automation and optimization.',
 }
 
 

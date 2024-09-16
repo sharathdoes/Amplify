@@ -1,9 +1,13 @@
-import React from 'react';
-import { motion } from 'framer-motion';
-import { Button } from '@/components/ui/button';
-import { useNavigate } from 'react-router-dom';
-import { FeedbackDrawer } from '../primarycomp/Drawer';
-import { toast } from 'sonner'; // Import Sonner's toast function
+import React from "react";
+import { motion } from "framer-motion";
+import { Button } from "@/components/ui/button";
+import { useNavigate } from "react-router-dom";
+import { toast } from "sonner";
+import { GoArrowUpRight } from "react-icons/go";
+import { MdKeyboardArrowRight } from "react-icons/md";
+import AnalyzeAnswer from "./analsye";
+import OrbitingCirclesDemo from "./circles"; // Import the new component
+import FeedbackDrawer from "../primarycomp/Drawer";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -30,51 +34,124 @@ export default function HeroSection() {
   const navigate = useNavigate();
 
   const handleGetStartedClick = () => {
-    navigate('/resume');
-    toast.success('Welcome to Amplify!', {
-      duration: 4000, // Duration of the toast in milliseconds
-    });
+    navigate("/resume");
+    toast.success("Welcome to Amplify!", { duration: 4000 });
   };
 
   const handleRecruitClick = () => {
-    navigate('/recruit');
-    toast.success('Welcome to Amplify!', {
-      duration: 4000, // Duration of the toast in milliseconds
-    });
+    navigate("/recruit");
+    toast.success("Welcome to Amplify!", { duration: 4000 });
+  };
+
+  const handleAnalysisClick = () => {
+    navigate("/anal");
+    toast.success("Skill Gap Analysis", { duration: 4000 });
   };
 
   return (
-    <section
-      className="relative w-full py-12 md:py-24 lg:py-32 xl:py-48 overflow-hidden "
-      
-    >
-      <div className="absolute inset-0 bg-gradient-to-br  animate-gradient-xy"></div>
-      <div className="container relative z-10 px-4 md:px-6">
+    <section className="relative w-full min-h-screen pt-48 overflow-hidden bg-gray-50">
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
+
+          .hero-section h1, .hero-section p {
+            font-family: 'Karla', sans-serif;
+          }
+        `}
+      </style>
+      <div className="absolute inset-0 bg-gradient-to-br animate-gradient-xy"></div>
+      <div className="container relative z-10 px-4 md:px-6 hero-section">
         <motion.div
           className="flex flex-col items-center text-center"
           variants={containerVariants}
           initial="hidden"
           animate="visible"
         >
-          <motion.h1 className="text-4xl font-bold tracking-tighter sm:text-5xl animate__animated animate__fadeInDown">
-            Amplify Opportunities
+          <motion.h1 className="text-4xl mt-10 font-bold tracking-tighter sm:text-5xl animate__animated animate__fadeInDown">
+            Amplify careers. Boost opportunities.
           </motion.h1>
-          <motion.p className="max-w-[600px] text-gray-700 md:text-xl mt-4" variants={itemVariants}>
-            From your resume through your test, we've got you covered. Upload your current resume to get started. 100% free.
+          <motion.h1 className="text-4xl font-bold tracking-tighter sm:text-5xl animate__animated animate__fadeInDown">
+            Test your skills and stand out.
+          </motion.h1>
+          <motion.p
+            className="max-w-[500px] text-gray-700 md:text-xl mt-4 "
+            variants={itemVariants}
+          >
+            From your resume through your test, we've got you covered. Upload
+            your current resume to get started.
           </motion.p>
-          <motion.div className="mt-8 flex gap-3 justify-center" variants={itemVariants}>
-            <Button onClick={handleGetStartedClick} size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-              Get Started
+          <motion.div
+            className="mt-8 flex gap-3 justify-center"
+            variants={itemVariants}
+          >
+            <Button
+              onClick={handleGetStartedClick}
+              size="lg"
+              className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full pl-5 pr-4"
+            >
+              Get Started{" "}
+              <div className="ml-1">
+                <GoArrowUpRight />
+              </div>
             </Button>
-            <Button onClick={handleRecruitClick} size="lg" variant="outline" className="border-primary text-primary hover:bg-primary/10">
-              Recruit
+            <Button
+              onClick={handleRecruitClick}
+              size="lg"
+              className="bg-white text-black hover:bg-gray-200 hover:text-black rounded-full pl-5 pr-4"
+            >
+              Recruiter's Login{" "}
+              <div className="ml-1">
+                <MdKeyboardArrowRight />
+              </div>
             </Button>
           </motion.div>
         </motion.div>
-      </div>
+        <div className="mt-16 w-full">
+          <AnalyzeAnswer className="w-full" />
+        </div>
 
-      {/* Feedback Drawer */}
-      <FeedbackDrawer />
+        {/* New Section: Skill Gap Analysis */}
+        <div className="mt-16 mx-auto max-w-full px-4 sm:px-6 md:px-8 lg:px-16 xl:px-24">
+          <div className="w-full max-w-screen-xl mx-auto grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div>
+              <motion.h1
+                className="text-4xl font-bold tracking-tighter sm:text-4xl"
+                variants={itemVariants}
+              >
+                Skill Gap Analysis
+              </motion.h1>
+              <motion.p
+                className="max-w-full text-gray-700 md:text-xl mt-6"
+                variants={itemVariants}
+              >
+                Are you worried your resume isn’t getting shortlisted? Don’t worry! Our Skill Gap Analysis helps you identify the areas you need to improve to stand out and secure your dream job.
+              </motion.p>
+              <motion.div className="mt-6" variants={itemVariants}>
+                <Button
+                  onClick={handleAnalysisClick}
+                  size="lg"
+                  className="bg-primary text-primary-foreground hover:bg-primary/90 rounded-full pl-5 pr-4"
+                >
+                  Analyze My Skills{" "}
+                  <div className="ml-1">
+                    <GoArrowUpRight />
+                  </div>
+                </Button>
+              </motion.div>
+            </div>
+            <div className="hidden md:block">
+              <OrbitingCirclesDemo />
+            </div>
+          </div>
+        </div>
+
+        <motion.div className="mt-16 mb-10" variants={itemVariants}>
+          <p className="text-gray-700 md:text-xl text-center">
+            Spend a minute or two giving <FeedbackDrawer  /> it will help me a lot.
+          </p>
+       
+        </motion.div>
+      </div>
     </section>
   );
 }

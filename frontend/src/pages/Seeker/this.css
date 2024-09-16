@@ -1,0 +1,36 @@
+@keyframes marquee {
+  0% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(-100%);
+  }
+}
+
+@keyframes marquee-reverse {
+  0% {
+    transform: translateX(0);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+/* First row animation */
+.track {
+  animation: marquee 150s linear infinite;
+}
+
+.track:hover {
+  animation-play-state: paused;
+}
+
+/* Second row animation with 30px start offset */
+.second-row {
+  animation: marquee 150s linear infinite; /* Same speed */
+  transform: translateX(120px); /* Shift start by 30px */
+}
+
+.second-row:hover {
+  animation-play-state: paused;
+}

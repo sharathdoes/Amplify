@@ -182,7 +182,7 @@ export default function Exam() {
   if (!job) return <p>Loading...</p>;
 
   return (
-    <div className="flex flex-col items-center justify-center h-screen bg-background p-6 sm:p-8 md:p-10">
+    <div className="flex flex-col items-center bg-gray-50 justify-center h-screen bg-background p-6 sm:p-8 md:p-10">
       {showDialog && (
         <Dialog open={showDialog} onClose={() => setShowDialog(false)}>
           <DialogTitle>Test Already Taken</DialogTitle>
@@ -201,7 +201,7 @@ export default function Exam() {
       )}
 
       {!hasStarted ? (
-        <Card className="w-full max-w-3xl p-8 mb-28 rounded-lg shadow-lg">
+        <Card className="w-full max-w-3xl mt-36 p-8 mb-28 rounded-lg shadow-lg">
           <CardHeader>
             <CardTitle className="text-center text-3xl font-bold">{job.jobName} Exam</CardTitle>
           </CardHeader>

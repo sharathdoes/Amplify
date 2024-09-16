@@ -23,6 +23,7 @@ const PowerB = () => {
     // Set userInfo to null, close the dialog, and redirect to /resume
     setUserInfo(null);
     setIsDialogOpen(false);
+    
     navigate('/recruit', { replace: true }); // Redirect to /resume
   };
 
