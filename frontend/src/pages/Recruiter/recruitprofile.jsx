@@ -15,7 +15,7 @@ export default function JobDashboard() {
   const navigate = useNavigate();
   const companyName = userInfo.companyName;
   const tokenId = userInfo.tokenId;
-
+ console.log(tokenId);
   useEffect(() => {
     async function fetchJobs() {
       try {
