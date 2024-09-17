@@ -11,10 +11,10 @@ import PowerButton from "./pages/primarycomp/PowerButton";
 import UserDash from "./pages/Seeker/Homepage";
 import Analyze from "./pages/Seeker/answer";
 import UserDashboard from "./pages/Seeker/UploadResume";
-import OrbitingCirclesDemo from "./pages/Seeker/circles";
+import FetchData from "./pages/Seeker/circles";
 import LoadingComponent from "./pages/primarycomp/Loading";
 import ProtectedRoute from "./pages/Protectionroute"; // Import the ProtectedRoute component
-
+import PowerB from "./pages/primarycomp/power";
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -39,6 +39,7 @@ function App() {
         <Route path="/resume" element={<UserDashboard />} />
         <Route path="/about" element={<About />} />
         <Route path="/recruit" element={<Recruit />} />
+        <Route path="/an" element={<FetchData />} />
 
         {/* Protected routes for seekers */}
         <Route
@@ -69,6 +70,7 @@ function App() {
         <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>
       <PowerButton />
+      <PowerB/>
     </Router>
   );
 }
