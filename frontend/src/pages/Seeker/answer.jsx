@@ -78,14 +78,29 @@ export default function Component() {
   };
 
   return (
-    <div className="min-h-screen flex flex-col items-center justify-center bg-gray-50 pt-24">
+    <div className="min-h-screen flex flex-col items-center bg-gray-50 justify-center pt-24">
       <Toaster /> {/* Add Toaster component to render toasts */}
-      <div className="w-full max-w-2xl text-center">
-        <h1 className="text-3xl font-bold mb-4">Skill Gap Analysis</h1>
+      
+      <style>
+        {`
+          @import url('https://fonts.googleapis.com/css2?family=Karla:wght@200..800&display=swap');
+
+          body {
+            font-family: 'Karla', sans-serif;
+          }
+
+          h1, p, label {
+            font-family: 'Karla', sans-serif;
+          }
+        `}
+      </style>
+
+      <div className="w-full max-w-2xl bg-gray-50 shadow-lg border pt-8 mb-12 rounded-xl p-8 py-2 text-center">
+        <h1 className="text-3xl font-bold mb-6">Skill Gap Analysis</h1>
         
-        <form onSubmit={handleSubmit} className="mb-8">
-          <div className="mb-4">
-            <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center cursor-pointer hover:border-gray-400 transition-colors">
+        <form onSubmit={handleSubmit} className="mb-10">
+          <div className="mb-6">
+            <div className="border-2 border-dashed border-gray-400 rounded-lg p-10 text-center cursor-pointer hover:border-gray-500 transition-colors hover:shadow-lg bg-gray-50">
               <input
                 type="file"
                 id="resume-upload"
@@ -93,22 +108,21 @@ export default function Component() {
                 onChange={handleFileChange}
                 accept=".pdf,.doc,.docx"
               />
-              <label htmlFor="resume-upload" className="cursor-pointer">
+              <label htmlFor="resume-upload" className="cursor-pointer text-gray-600 text-lg">
                 {file ? file.name : "Click to upload or drag and drop your resume here"}
               </label>
             </div>
           </div>
-          <Button type="submit" disabled={!file} className="w-full">Submit for Analysis</Button>
-          <div className="text-lg text-gray-600 mt-4 text-center">
-            <span>After you click submit, </span>
-            <span className="font-bold">wait a few seconds </span>
-            <span>for resume analysis.</span>
-          </div>
+          <Button type="submit" disabled={!file} className="w-full text-white py-3 rounded-lg transition-colors">
+            Submit for Analysis
+          </Button>
         </form>
 
+   
+
         {analysis && (
-          <div className="bg-white shadow-md rounded-lg p-6 text-left mt-6">
-            <h2 className="text-xl font-semibold mb-4 pb-6 text-center">Analysis Results</h2>
+          <div className="bg-gray-50 shadow-md rounded-lg mb-6 p-6 text-left mt-6">
+            <h2 className="text-xl font-semibold mb-4 pb-4 text-center ">Analysis Results</h2>
             <ReactMarkdown className="prose prose-lg text-gray-700">
               {analysis}
             </ReactMarkdown>

@@ -5,7 +5,7 @@ import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/Card";
 import { useAppStore } from "@/store";
 import { Dialog, DialogTitle, DialogContent } from "@/components/ui/dialog"; // Updated import
 import { useNavigate } from "react-router-dom";
-
+import {toast} from "sonner";
 export default function Exam() {
   const [job, setJob] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -16,12 +16,37 @@ export default function Exam() {
   const [isSubmitted, setIsSubmitted] = useState(false);
   const [hasStarted, setHasStarted] = useState(false);
   const [canMoveBack, setCanMoveBack] = useState(true);
+  const [isAnomalyDetected, setIsAnomalyDetected] = useState(false);
   const [hasTakenTest, setHasTakenTest] = useState(false);
-  const [showDialog, setShowDialog] = useState(false); // State for alert visibility
+  const [showDialog, setShowDialog] = useState(false); 
+  const [anomalyDialog, setAnomalyDialog] = useState(false); // For anomaly detection dialog
+  // State for alert visibility
 
   const jobId = new URLSearchParams(window.location.search).get("jobId");
   const { SeekerInfo } = useAppStore();
  const navigate=useNavigate();
+ useEffect(() => {
+  const handleFullscreenChange = () => {
+    if (!document.fullscreenElement && hasStarted) {
+      setIsAnomalyDetected(true);
+    }
+  };
+
+  const handleVisibilityChange = () => {
+    if (document.hidden && hasStarted) {
+      setIsAnomalyDetected(true);
+    }
+  };
+
+  document.addEventListener('fullscreenchange', handleFullscreenChange);
+  document.addEventListener('visibilitychange', handleVisibilityChange);
+  
+  return () => {
+    document.removeEventListener('fullscreenchange', handleFullscreenChange);
+    document.removeEventListener('visibilitychange', handleVisibilityChange);
+  };
+}, [hasStarted]);
+
   useEffect(() => {
     const fetchJob = async () => {
       try {
@@ -110,13 +135,35 @@ export default function Exam() {
 
   const handleSubmit = async () => {
     if (isSubmitted) return;
+    if (isAnomalyDetected) {
+      setAnomalyDialog(true);
 
+      try {
+        const response = await fetch('http://localhost:6546/api/tookTest', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json',
+          },
+          body: JSON.stringify({ tokenID: SeekerInfo.tokenID, jobId }),
+        });
+
+        if (!response.ok) {
+          throw new Error("Failed to update test status");
+        }
+      } catch (error) {
+        console.error("Failed to update test status", error);
+      }
+      toast("An anomaly was detected during the test.");
+      return;
+    }
     if (job && job.questions) {
       const correctAnswers = job.questions.reduce((acc, question, index) => {
         return question.correctOption === answers[index] ? acc + 1 : acc;
       }, 0);
       setScore(correctAnswers);
       setIsSubmitted(true);
+      
+  
 
       try {
         const response = await fetch('http://localhost:6546/api/tookTest', {
@@ -141,6 +188,11 @@ export default function Exam() {
       setShowDialog(true); // Show the alert if the test has already been taken
       return;
     }
+    if (!document.fullscreenElement) {
+      document.documentElement.requestFullscreen();
+      toast("Don't undo fullscreen, we're watching!");
+    }
+
     setHasStarted(true);
   };
 
@@ -199,7 +251,22 @@ export default function Exam() {
           </DialogContent>
         </Dialog>
       )}
-
+      {anomalyDialog && (
+        <Dialog open={anomalyDialog} onClose={() => setAnomalyDialog(false)}>
+          <DialogTitle>Anomaly Detected</DialogTitle>
+          <DialogContent>
+            <p>You performed an anomaly during the test.</p>
+            <div className="flex justify-center mt-4">
+              <Button
+                className="text-white bg-red-500 hover:bg-red-600"
+                onClick={() => navigate("/jobs")}
+              >
+                Go Back to Jobs
+              </Button>
+            </div>
+          </DialogContent>
+        </Dialog>
+      )}  
       {!hasStarted ? (
         <Card className="w-full max-w-3xl mt-36 p-8 mb-28 rounded-lg shadow-lg">
           <CardHeader>
@@ -212,7 +279,7 @@ export default function Exam() {
             </p>
             <ul className="list-disc list-inside mb-4 text-lg">
               <li>You will have 20 seconds to answer each question.</li>
-              <li>You can only write once, make sure to write well.</li>
+              <li>You can only write once, tab switches, undo fullscreen will be detected.</li>
               <li>Your score will determine your eligibility for the job/referral.</li>
             </ul>
             <div className="flex justify-center">

@@ -129,8 +129,7 @@ async  updateJob(req, res) {
       // Prepare search conditions
       const searchConditions = words.map(word => ({
         $or: [
-          { jobName: { $regex: word, $options: 'i' } },
-          { jobDescription: { $regex: word, $options: 'i' } },
+          { jobName: { $regex: word, $options: 'i' } }
         ]
       }));
   

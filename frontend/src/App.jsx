@@ -15,6 +15,8 @@ import FetchData from "./pages/Seeker/circles";
 import LoadingComponent from "./pages/primarycomp/Loading";
 import ProtectedRoute from "./pages/Protectionroute"; // Import the ProtectedRoute component
 import PowerB from "./pages/primarycomp/power";
+import FullscreenComponent from "./pages/Seeker/test";
+
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -39,8 +41,8 @@ function App() {
         <Route path="/resume" element={<UserDashboard />} />
         <Route path="/about" element={<About />} />
         <Route path="/recruit" element={<Recruit />} />
-        <Route path="/an" element={<FetchData />} />
-
+        <Route path="/tst" element={<FullscreenComponent />} />
+        
         {/* Protected routes for seekers */}
         <Route
           path="/jobs"
