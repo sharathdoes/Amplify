@@ -3,22 +3,22 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group"; // Import RadioGroup
 import { useAppStore } from "@/store";
 import { apiClient } from "@/lib/apiClient";
 import { useNavigate } from "react-router-dom";
+import { toast } from "sonner"; // Import toast from Sonner
 
 export default function Jobinput() {
   const navigate = useNavigate();
   const { userInfo } = useAppStore();
-  console.log('hi')
-  console.log("Query string:", window.location.search);
-  const params = new URLSearchParams(window.location.search);
-  const jobId = params.get("jodId");
-  
-  console.log("Extracted jobId:", jobId);
-  
-  const [numQuestions, setNumQuestions] = useState(0);
+  const [topic, setTopic] = useState(""); // Topic input for Gemini
   const [questions, setQuestions] = useState([]);
+  const [inputMethod, setInputMethod] = useState("manual"); // State for input method (manual or gemini)
+  const [loading, setLoading] = useState(false); // Loading state for Gemini
+  const params = new URLSearchParams(window.location.search);
+  const jobId = params.get("jodId"); // Ensure this is the correct query parameter
+  
   const [jobDetails, setJobDetails] = useState({
     recruiterEmail: "",
     subRecruiterEmail: "",
@@ -38,8 +38,9 @@ export default function Jobinput() {
   });
 
   useEffect(() => {
+    const params = new URLSearchParams(window.location.search);
+    const jobId = params.get("jobId");
     if (jobId) {
-      // Fetch job details if jobId exists (edit mode)
       const fetchJobDetails = async () => {
         try {
           const response = await apiClient.get(`/api/jobs/${jobId}`);
@@ -62,44 +63,27 @@ export default function Jobinput() {
             applyLink: job.applyLink,
           });
           setQuestions(job.questions || []);
-          setNumQuestions(job.questions?.length || 0);
         } catch (error) {
           console.error("Error fetching job details:", error.response?.data || error.message);
         }
       };
       fetchJobDetails();
     }
-  }, [jobId]);
+  }, []);
 
   const handleInputChange = (e) => {
     const { id, value } = e.target;
-    setJobDetails(prevDetails => ({
+    setJobDetails((prevDetails) => ({
       ...prevDetails,
       [id]: value,
     }));
   };
 
-  const handleNumQuestionsChange = (e) => {
-    const value = parseInt(e.target.value, 10);
-    setNumQuestions(value);
-    setQuestions(prevQuestions => {
-      const updatedQuestions = [...prevQuestions];
-      if (updatedQuestions.length < value) {
-        while (updatedQuestions.length < value) {
-          updatedQuestions.push({ question: '', options: [''], correctOption: '' });
-        }
-      } else if (updatedQuestions.length > value) {
-        updatedQuestions.length = value;
-      }
-      return updatedQuestions;
-    });
-  };
-
   const handleQuestionChange = (index, field, value) => {
-    setQuestions(prevQuestions => {
+    setQuestions((prevQuestions) => {
       const updatedQuestions = [...prevQuestions];
       if (field === 'options') {
-        updatedQuestions[index][field] = value.split(',').map(opt => opt.trim());
+        updatedQuestions[index][field] = value.split(',').map((opt) => opt.trim());
       } else {
         updatedQuestions[index][field] = value;
       }
@@ -107,20 +91,100 @@ export default function Jobinput() {
     });
   };
 
+  const generateQuestions = async () => {
+    setLoading(true); // Set loading to true when Gemini starts
+    let allQuestions = [];
+  
+    try {
+      const response = await apiClient.post(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAp-XHDUyaRo_qH9LLowS_kKdY25p7-JSY",
+        {
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Generate 10 questions on the topic: "${topic}" in the following array format: 
+                  {
+                    question: { type: String, required: true },
+                    options: { type: [String], required: true },
+                    correctOption: { type: String, required: true }
+                  }`
+                },
+              ],
+            },
+          ],
+        }
+      );
+  
+      const generatedText = response.data.candidates[0].content.parts[0].text;
+      const regex = /{[\s\S]*?}/g;
+      const matches = generatedText.match(regex);
+  
+      if (matches) {
+        matches.forEach((match) => {
+          try {
+            const questionObj = eval(`(${match})`);
+            
+            // Validate question object
+            if (
+              typeof questionObj.question === "string" &&
+              Array.isArray(questionObj.options) &&
+              questionObj.options.every(option => typeof option === "string" && option.trim()) &&
+              typeof questionObj.correctOption === "string" &&
+              questionObj.correctOption.trim()
+            ) {
+              allQuestions.push(questionObj);
+            } else {
+              console.warn('Skipping invalid question object:', questionObj);
+            }
+          } catch (err) {
+            console.warn('Skipping invalid JSON-like object', err);
+          }
+        });
+      }
+  
+      // Set questions and alert if any were invalid
+      setQuestions(allQuestions);
+      if (allQuestions.length < 10) {
+        toast.error("Some generated questions were invalid. Please review the input.");
+      } else {
+        toast.success("Questions generated successfully!");
+      }
+  
+      console.log("Questions set from Gemini: ", allQuestions); // Debugging console log
+      console.log(allQuestions)
+    } catch (error) {
+      console.error("Error generating questions:", error);
+      toast.error("Error generating questions");
+    } finally {
+      setLoading(false); // Set loading to false when generation is complete
+    }
+  };
+  console.log("hi")
   const handleJobs = async (e) => {
     e.preventDefault();
-
+  
+    // Validate questions before sending
+    const validQuestions = questions.filter(q => 
+      q.question && 
+      Array.isArray(q.options) && 
+      q.options.length > 0 && 
+      q.correctOption
+    );
+  
+    if (validQuestions.length !== questions.length) {
+      console.warn("Some questions are invalid. Please check your entries.");
+      alert("Please ensure all questions have valid data.");
+      return;
+    }
+  
     const jobData = {
       tokenId: userInfo.tokenId,
       ...jobDetails,
       skills: jobDetails.skills.split(',').map(skill => skill.trim()),
-      questions: questions.map(q => ({
-        question: q.question,
-        options: q.options,
-        correctOption: q.correctOption
-      })),
+      questions: validQuestions,
     };
-
+  
     try {
       if (jobId) {
         // Update existing job
@@ -141,16 +205,19 @@ export default function Jobinput() {
       alert("An error occurred while saving the job.");
     }
   };
+  
 
   return (
     <div>
       <div className="space-y-2 pt-32">
-        <h1 className="text-2xl mr-48 font-bold tracking-tighter sm:text-4xl text-center mb-4 animate__animated animate__fadeInDown">
+        <h1 className="text-2xl mr-48 font-bold tracking-tighter sm:text-4xl text-center mb-4">
           Hello, Recruiter from {userInfo.companyName}!
         </h1>
       </div>
       <form className="space-y-8 max-w-2xl mx-auto shadow-xl p-6" onSubmit={handleJobs}>
+        {/* Input fields for job details */}
         <div className="space-y-4">
+          {/* Other input fields here... */}
           <div className="grid grid-cols-1 gap-4 sm:grid-cols-2">
             <div className="space-y-2">
               <Label htmlFor="recruiterEmail">Recruiter Email</Label>
@@ -260,57 +327,96 @@ export default function Jobinput() {
             />
           </div>
 
+
+          {/* Radio group to choose between manual input and Gemini */}
           <div className="space-y-2">
-            <Label htmlFor="numQuestions">Number of Questions</Label>
-            <Input
-              id="numQuestions"
-              type="number"
-              value={numQuestions}
-              onChange={handleNumQuestionsChange}
-              required
-            />
+            <Label>Question Input Method</Label>
+            <RadioGroup value={inputMethod} onValueChange={setInputMethod} className="flex space-x-4">
+              <div>
+                <RadioGroupItem value="manual" id="manual" />
+                <Label htmlFor="manual">Manual Entry</Label>
+              </div>
+              <div>
+                <RadioGroupItem value="gemini" id="gemini" />
+                <Label htmlFor="gemini">Use Gemini</Label>
+              </div>
+            </RadioGroup>
           </div>
 
-          {Array.from({ length: numQuestions }).map((_, index) => (
-            <div key={index} className="space-y-4 p-4 border rounded">
+          {/* Show manual question input fields if manual is selected */}
+          {inputMethod === 'manual' && (
+            <>
               <div className="space-y-2">
-                <Label htmlFor={`question-${index}`}>Question {index + 1}</Label>
-                <Textarea
-                  id={`question-${index}`}
-                  placeholder="Enter the question"
-                  value={questions[index]?.question || ''}
-                  onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor={`options-${index}`}>Options (comma-separated)</Label>
-                <Textarea
-                  id={`options-${index}`}
-                  placeholder="Option 1, Option 2, Option 3, Option 4"
-                  value={questions[index]?.options?.join(', ') || ''}
-                  onChange={(e) => handleQuestionChange(index, 'options', e.target.value)}
-                  required
-                />
-              </div>
-              <div className="space-y-2">
-                <Label htmlFor={`correctOption-${index}`}>Correct Option</Label>
+                <Label htmlFor="numQuestions">Number of Questions</Label>
                 <Input
-                  id={`correctOption-${index}`}
-                  placeholder="Enter the correct option"
-                  value={questions[index]?.correctOption || ''}
-                  onChange={(e) => handleQuestionChange(index, 'correctOption', e.target.value)}
+                  id="numQuestions"
+                  type="number"
+                  value={questions.length}
+                  onChange={(e) => handleNumQuestionsChange(e.target.value)}
                   required
                 />
               </div>
-            </div>
-          ))}
+              {questions.map((_, index) => (
+                <div key={index} className="space-y-4 p-4 border rounded">
+                  <div className="space-y-2">
+                    <Label htmlFor={`question-${index}`}>Question {index + 1}</Label>
+                    <Textarea
+                      id={`question-${index}`}
+                      placeholder="Enter the question"
+                      value={questions[index]?.question || ''}
+                      onChange={(e) => handleQuestionChange(index, 'question', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`options-${index}`}>Options (comma separated)</Label>
+                    <Input
+                      id={`options-${index}`}
+                      placeholder="Option 1, Option 2, Option 3, Option 4"
+                      value={questions[index]?.options.join(', ') || ''}
+                      onChange={(e) => handleQuestionChange(index, 'options', e.target.value)}
+                      required
+                    />
+                  </div>
+                  <div className="space-y-2">
+                    <Label htmlFor={`correctOption-${index}`}>Correct Option</Label>
+                    <Input
+                      id={`correctOption-${index}`}
+                      placeholder="Correct Option"
+                      value={questions[index]?.correctOption || ''}
+                      onChange={(e) => handleQuestionChange(index, 'correctOption', e.target.value)}
+                      required
+                    />
+                  </div>
+                </div>
+              ))}
+            </>
+          )}
+
+          {/* Show Gemini option */}
+          {inputMethod === 'gemini' && (
+            <>
+              <div className="space-y-2">
+                <Label htmlFor="topic">Enter Topic for Question Generation</Label>
+                <Input
+                  id="topic"
+                  placeholder="Enter topic here"
+                  value={topic}
+                  onChange={(e) => setTopic(e.target.value)}
+                  required
+                />
+              </div>
+              <Button onClick={generateQuestions} disabled={loading}>
+                {loading ? "Generating Questions..." : `Generate 10 Questions on "${topic}" with Gemini`}
+              </Button>
+            </>
+          )}
         </div>
-        <Button type="submit" className="w-full">
-          {jobId ? "Update Job" : "Create Job"}
+
+        <Button type="submit" disabled={loading}>
+          {loading ? "Saving Job..." : "Post Job"}
         </Button>
       </form>
     </div>
   );
 }
-

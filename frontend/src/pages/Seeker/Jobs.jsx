@@ -137,7 +137,7 @@ export default function JobComponent() {
   return (
     <div className="flex mt-12 bg-gray-50 h-screen w-full">
       {/* First Column: Filters and Search (20% width) */}
-      <div className="w-[20%] p-4 mt-8 flex flex-col space-y-4 border-r">
+      <div className="w-[20%] p-4 mt-12 flex flex-col space-y-4 border-r">
         {/* Search Bar */}
         <div className="flex items-center space-x-2 mb-4">
           <Input
@@ -201,7 +201,7 @@ export default function JobComponent() {
       </div>
 
       {/* Second Column: Jobs List (35% width) */}
-      <div className="w-[35%] p-4 flex flex-col  bg-gray-50 space-y-4 border-r">
+      <div className="w-[35%] p-4 flex flex-col mt-6 bg-gray-50 space-y-4 border-r">
         <Card className="flex-grow overflow-hidden bg-gray-50">
           <CardHeader>
             <CardTitle>Jobs</CardTitle>
@@ -236,7 +236,7 @@ export default function JobComponent() {
 
       {/* Third Column: Job Details (45% width) */}
       {selectedJob && (
-  <div className="w-[45%] bg-gray-50 p-4">
+  <div className="w-[45%] mt-6 bg-gray-50 p-4">
     <Card className="h-full bg-gray-50  overflow-hidden">
       <CardHeader>
         <CardTitle>Job Details</CardTitle>

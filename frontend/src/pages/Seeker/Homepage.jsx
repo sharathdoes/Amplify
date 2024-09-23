@@ -77,8 +77,8 @@ export default function HeroSection() {
             className="max-w-[500px] text-gray-700 md:text-xl mt-4 "
             variants={itemVariants}
           >
-            From your resume through your test, we've got you covered. Upload
-            your current resume to get started.
+            From your resume through your test & referral, we've got you covered. Upload
+            your resume to get started.
           </motion.p>
           <motion.div
             className="mt-8 flex gap-3 justify-center"
