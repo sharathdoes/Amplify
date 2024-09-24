@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { Button } from "@/components/ui/button";
 import { RadioGroup } from "@/components/ui/radio-group";
-import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/Card";
+import { Card, CardContent, CardTitle, CardHeader } from "@/components/ui/card";
 import { useAppStore } from "@/store";
 import { Dialog, DialogTitle, DialogContent } from "@/components/ui/dialog"; // Updated import
 import { useNavigate } from "react-router-dom";
