@@ -96,63 +96,65 @@ export default function Jobinput() {
     let allQuestions = [];
   
     try {
-      const response = await apiClient.post(
-        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAp-XHDUyaRo_qH9LLowS_kKdY25p7-JSY",
-        {
-          contents: [
-            {
-              parts: [
-                {
-                  text: `Generate 10 questions on the topic: "${topic}" in the following array format: 
+      for (let i = 0; i < 10; i++) { // Loop 10 times for 100 questions
+        const response = await apiClient.post(
+          "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAp-XHDUyaRo_qH9LLowS_kKdY25p7-JSY",
+          {
+            contents: [
+              {
+                parts: [
                   {
-                    question: { type: String, required: true },
-                    options: { type: [String], required: true },
-                    correctOption: { type: String, required: true }
-                  }`
-                },
-              ],
-            },
-          ],
-        }
-      );
-  
-      const generatedText = response.data.candidates[0].content.parts[0].text;
-      const regex = /{[\s\S]*?}/g;
-      const matches = generatedText.match(regex);
-  
-      if (matches) {
-        matches.forEach((match) => {
-          try {
-            const questionObj = eval(`(${match})`);
-            
-            // Validate question object
-            if (
-              typeof questionObj.question === "string" &&
-              Array.isArray(questionObj.options) &&
-              questionObj.options.every(option => typeof option === "string" && option.trim()) &&
-              typeof questionObj.correctOption === "string" &&
-              questionObj.correctOption.trim()
-            ) {
-              allQuestions.push(questionObj);
-            } else {
-              console.warn('Skipping invalid question object:', questionObj);
-            }
-          } catch (err) {
-            console.warn('Skipping invalid JSON-like object', err);
+                    text: `Generate 10 questions on the topic: "${topic}" in the following array format: 
+                    {
+                      question: { type: String, required: true },
+                      options: { type: [String], required: true },
+                      correctOption: { type: String, required: true }
+                    }`
+                  },
+                ],
+              },
+            ],
           }
-        });
+        );
+  
+        const generatedText = response.data.candidates[0].content.parts[0].text;
+        const regex = /{[\s\S]*?}/g;
+        const matches = generatedText.match(regex);
+  
+        if (matches) {
+          matches.forEach((match) => {
+            try {
+              const questionObj = eval(`(${match})`);
+  
+              // Validate question object
+              if (
+                typeof questionObj.question === "string" &&
+                Array.isArray(questionObj.options) &&
+                questionObj.options.every(option => typeof option === "string" && option.trim()) &&
+                typeof questionObj.correctOption === "string" &&
+                questionObj.correctOption.trim()
+              ) {
+                allQuestions.push(questionObj);
+              } else {
+                console.warn('Skipping invalid question object:', questionObj);
+              }
+            } catch (err) {
+              console.warn('Skipping invalid JSON-like object', err);
+            }
+          });
+        }
       }
   
       // Set questions and alert if any were invalid
       setQuestions(allQuestions);
-      if (allQuestions.length < 10) {
+      if (allQuestions.length < 100) {
         toast.error("Some generated questions were invalid. Please review the input.");
       } else {
         toast.success("Questions generated successfully!");
       }
   
       console.log("Questions set from Gemini: ", allQuestions); // Debugging console log
-      console.log(allQuestions)
+      console.log(allQuestions);
     } catch (error) {
       console.error("Error generating questions:", error);
       toast.error("Error generating questions");
@@ -160,6 +162,9 @@ export default function Jobinput() {
       setLoading(false); // Set loading to false when generation is complete
     }
   };
+  
+
+
   console.log("hi")
   const handleJobs = async (e) => {
     e.preventDefault();
@@ -407,7 +412,7 @@ export default function Jobinput() {
                 />
               </div>
               <Button onClick={generateQuestions} disabled={loading}>
-                {loading ? "Generating Questions..." : `Generate 10 Questions on "${topic}" with Gemini`}
+                {loading ? "Generating Questions..." : `Generate 100 Questions on "${topic}" with Gemini`}
               </Button>
             </>
           )}

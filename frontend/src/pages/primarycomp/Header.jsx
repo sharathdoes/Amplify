@@ -5,7 +5,7 @@ import image from '../../assets/imagere.png'; // Import the image
 import { useNavigate } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io'; // Import the search icon
 import { motion } from 'framer-motion'; // Import motion for animations
-
+import {toast} from "sonner"
 export default function Header() {
   const navigate = useNavigate();
   const [isScrolled, setIsScrolled] = useState(false);
@@ -21,6 +21,9 @@ export default function Header() {
   };
   const handleAnalysis = () => {
     navigate('/anal');
+  };
+  const loadingpls = () => {
+    toast.success("Working on it! Click on Get started", { duration: 4000 });
   };
 
   useEffect(() => {
@@ -147,7 +150,7 @@ export default function Header() {
 
         {/* Search Icon */}
         <div className="mr-72 hidden lg:flex items-center">
-          <button className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+          <button onCLick={loadingpls()}className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
             <IoIosSearch className="search-icon animate-search-icon" />
           </button>
         </div>
