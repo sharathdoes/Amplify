@@ -7,6 +7,7 @@ import { useGoogleLogin } from '@react-oauth/google';
 import { useAppStore } from "../../store/index";
 import { useNavigate } from 'react-router-dom';
 import { toast } from 'sonner'; // Import Sonner's toast function
+import { apiClient } from "@/lib/apiClient";
 
 import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
 
@@ -45,11 +46,13 @@ function FileUploader({ setResult }) {
       toast.error('No file selected');
       return;
     }
+  
 
     if (!isSignedIn) {
       setIsDialogOpen(true); // Open the sign-in dialog if not signed in
       return;
     }
+    toast.success('Wait a few sec...')
 
     try {
       const formData = new FormData();
@@ -68,7 +71,8 @@ function FileUploader({ setResult }) {
           contents: [
             {
               parts: [
-                { text: `This is the user's resume... ${resumeText}` }
+                { text: `This is the user's resume... and his details: ${resumeText}. Provide skill gap analysis, what he lacks, and suggestions he has to implement for better job opportunities. ` }
+
               ]
             }
           ]
@@ -115,7 +119,7 @@ function FileUploader({ setResult }) {
       const userInfo = await userInfoResponse.json();
       const userId = userInfo.sub;
 
-      const response = await axios.post("http://localhost:6546/api/UserSignin", { tokenID: userId, name: name });
+      const response = await apiClient.post("/api/UserSignin", { tokenID: userId, name: name });
 
       if (response.status === 201) {
         setSeekerInfo(response.data.user);
@@ -136,10 +140,7 @@ function FileUploader({ setResult }) {
     }
     signIn();
   };
-  const handleGoogleSignInn = () => {
-   
-    signIn();
-  };
+ 
 
   return (
     <div className="w-[400px] h-[300px] max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
@@ -187,9 +188,7 @@ function FileUploader({ setResult }) {
             <Button className="w-full" onClick={handleGoogleSignIn}>
               Sign in with Google
             </Button>
-            <Button className="w-full" onClick={handleGoogleSignInn}>
-            Already a User?
-            </Button>
+            
           </div>
         </DialogContent>
       </Dialog>

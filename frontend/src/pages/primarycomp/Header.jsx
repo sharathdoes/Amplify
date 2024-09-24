@@ -22,7 +22,7 @@ export default function Header() {
   const handleAnalysis = () => {
     navigate('/anal');
   };
-  const loadingpls = () => {
+  const kopls = () => {
     toast.success("Working on it! Click on Get started", { duration: 4000 });
   };
 
@@ -150,7 +150,7 @@ export default function Header() {
 
         {/* Search Icon */}
         <div className="mr-72 hidden lg:flex items-center">
-          <button onCLick={loadingpls()}className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
+          <button onClick={kopls}className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
             <IoIosSearch className="search-icon animate-search-icon" />
           </button>
         </div>

@@ -39,23 +39,16 @@ export default function JobComponent() {
 
   const fetchJobs = async () => {
     try {
-      const response = await fetch("http://localhost:6546/api/jobsbykeyword", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          query: searchTerm || selectedRole || "default role",
-          jobLevel,
-          datePosted,
-          location: isRemote ? "Remote" : location, // Send "Remote" if switch is enabled
-        }),
+      const response = await apiClient.post("/api/jobsbykeyword", {
+        query: searchTerm || selectedRole || "default role",
+        jobLevel,
+        datePosted,
+        location: isRemote ? "Remote" : location // Send "Remote" if switch is enabled
       });
-
-      if (!response.ok) {
-        throw new Error("Network response was not ok");
-      }
-      const data = await response.json();
+    
+      // Log the response to check data
+      console.log(response.data);
+      const data = await response.data;
       setJobs(data);
       if (data.length > 0) {
         setSelectedJob(data[0]);
