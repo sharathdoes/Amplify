@@ -1,44 +1,53 @@
 import 'dotenv/config';
+import path from 'path';
 import express from 'express';
-import bodyParser from 'body-parser';
 import cors from 'cors';
 import cookieParser from 'cookie-parser';
 import mongoose from 'mongoose';
 import jobRoutes from './routes/Jobroute.js';
 import authRoutes from './routes/SignInroute.js'; 
-import feedbackroute from './routes/feedbackroute.js'
-import seekerroute from './routes/Seekerroute.js'
+import feedbackroute from './routes/feedbackroute.js';
+import seekerroute from './routes/Seekerroute.js';
 
 const app = express();
+const __dirname = path.resolve();
 
-app.use(cors({
-  origin: "https://amplify-51zx.vercel.app",
-  methods:["GET","PUT","POST"],
-  credentials: true
-}));
-app.use(bodyParser.json()); // Parse JSON bodies
+app.use(cors()); // Allow CORS
+app.use(express.static(path.join(__dirname, '../frontend/dist')));
+app.use(express.json()); // Parse JSON bodies
 app.use(cookieParser());
-app.use(express.json());
 
 app.use('/api', jobRoutes);
 app.use('/api', authRoutes);
-app.use('/api',feedbackroute) // Use the authRoutes
-app.use('/api',seekerroute) // Use the authRoutes
+app.use('/api', feedbackroute);
+app.use('/api', seekerroute);
+
+// Fallback for all other routes
+app.use('*', (req, res) => {
+  res.sendFile(path.join(__dirname, '../frontend/dist', 'index.html'), (err) => {
+    if (err) {
+      console.error(err);
+      res.status(err.status).end(); // Handle the error
+    }
+  });
+});
 
 mongoose.connect(process.env.DATABASE_URL, {
     useNewUrlParser: true,
     useUnifiedTopology: true
-  }).then(() => {
+}).then(() => {
     console.log('Connected to MongoDB');
-  }).catch((err) => {
+}).catch((err) => {
     console.error('Failed to connect to MongoDB', err);
-  });
-  
-  app.get('/', (req, res) => {
-    res.send('Hello, world!');
-  });
+});
 
-  const port = process.env.PORT || 3000;
-  const server = app.listen(port, () => {
+const port = process.env.PORT || 3000;
+const server = app.listen(port, () => {
     console.log(`Server is running on port ${port}`);
-  });  
+});
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+    console.error(err.stack);
+    res.status(500).send('Something went wrong!');
+});

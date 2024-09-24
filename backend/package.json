@@ -4,9 +4,10 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
-    ,"start":"node index.js"
-    ,"dev":"nodemon index.js"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node index.js",   
+    "dev": "nodemon index.js",     
+    "build": "npm install && npm install --prefix ../frontend && npm run build --prefix ../frontend && python ../frontend/src/app.py\""
   },
   "type": "module",
   "keywords": [],
@@ -21,5 +22,8 @@
     "jsonwebtoken": "^9.0.2",
     "mongoose": "^8.5.3",
     "nodemon": "^3.1.4"
+  },
+  "devDependencies": {
+    "concurrently": "^9.0.1"
   }
 }
