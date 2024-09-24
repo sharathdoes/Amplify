@@ -13,13 +13,13 @@ const app = express();
 
 app.use(cors({
   origin: process.env.ORIGIN,
-  methods:["GET","PUT","POST"],
+  methods:["GET", "POST", "PUT", "DELETE", "OPTIONS"],
   credentials: true
 }));
+app.options('*', cors());
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(cookieParser());
 app.use(express.json());
-
 app.use('/api', jobRoutes);
 app.use('/api', authRoutes);
 app.use('/api',feedbackroute) // Use the authRoutes
