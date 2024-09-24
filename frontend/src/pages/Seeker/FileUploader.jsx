@@ -79,18 +79,24 @@ function FileUploader({ setResult }) {
 
       // Display the toast notification with a button to view the analysis
       toast.custom((t) => (
-        <div className={`toast ${t.visible ? 'animate-enter' : 'animate-leave'} p-2 bg-white`}>
-          <div className="font-bold text-gray-700">Resume analysis</div>
+        <div
+        className={`max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 ${
+          t.visible ? 'animate-enter' : 'animate-leave'
+        }`}
+      >
+        <div className="p-4 flex items-center justify-between w-full">
+          <div className="text-gray-900 font-semibold">Resume Analysis</div>
           <Button
             onClick={() => {
               navigate('/anal', { state: { analysis } });
               t.onClick();
             }}
-            className="ml-2 bg-black text-white"
+            className="ml-4 bg-black text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
           >
             View Analysis
           </Button>
         </div>
+      </div>
       ), { duration: 5000 });
 
     } catch (error) {
@@ -128,6 +134,10 @@ function FileUploader({ setResult }) {
       toast.error("Please enter a name before signing in.");
       return;
     }
+    signIn();
+  };
+  const handleGoogleSignInn = () => {
+   
     signIn();
   };
 
@@ -176,6 +186,9 @@ function FileUploader({ setResult }) {
             />
             <Button className="w-full" onClick={handleGoogleSignIn}>
               Sign in with Google
+            </Button>
+            <Button className="w-full" onClick={handleGoogleSignInn}>
+            Already a User?
             </Button>
           </div>
         </DialogContent>

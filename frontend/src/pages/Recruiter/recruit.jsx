@@ -1,13 +1,19 @@
-import React, { useState, useEffect } from 'react';
-import { useGoogleLogin } from '@react-oauth/google';
-import { useNavigate } from 'react-router-dom';
-import { Input } from '@/components/ui/input'; // ShadCN Input component
-import { Dialog, DialogContent, DialogTitle, DialogDescription, DialogFooter } from '@/components/ui/dialog'; // ShadCN Dialog
-import { Button } from '@/components/ui/button'; // ShadCN Button
-import ab from '@/assets/mic.jpg';
-import { motion } from 'framer-motion';
-import { apiClient } from '@/lib/apiClient';
-import { useAppStore } from '@/store';
+import React, { useState, useEffect } from "react";
+import { useGoogleLogin } from "@react-oauth/google";
+import { useNavigate } from "react-router-dom";
+import { Input } from "@/components/ui/input"; // ShadCN Input component
+import {
+  Dialog,
+  DialogContent,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/ui/dialog"; // ShadCN Dialog
+import { Button } from "@/components/ui/button"; // ShadCN Button
+import ab from "@/assets/mic.jpg";
+import { motion } from "framer-motion";
+import { apiClient } from "@/lib/apiClient";
+import { useAppStore } from "@/store";
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,8 +37,8 @@ const itemVariants = {
 };
 
 export default function Recruit() {
-  const [companyName, setCompanyName] = useState('');
-  const [dialogMessage, setDialogMessage] = useState(''); // State to hold the dialog message
+  const [companyName, setCompanyName] = useState("");
+  const [dialogMessage, setDialogMessage] = useState(""); // State to hold the dialog message
   const [isDialogOpen, setIsDialogOpen] = useState(false); // Control the dialog visibility
   const navigate = useNavigate();
   const { SeekerInfo, setSeekerInfo } = useAppStore((state) => ({
@@ -46,7 +52,7 @@ export default function Recruit() {
 
   useEffect(() => {
     if (userInfo) {
-      navigate('/rprofile');
+      navigate("/rprofile");
     }
   }, [userInfo, navigate]);
 
@@ -54,17 +60,23 @@ export default function Recruit() {
     const accessToken = res.access_token;
 
     try {
-      const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      const userInfoResponse = await fetch(
+        "https://www.googleapis.com/oauth2/v3/userinfo",
+        {
+          headers: {
+            Authorization: `Bearer ${accessToken}`,
+          },
+        }
+      );
 
       const userInfo = await userInfoResponse.json();
 
       const userId = userInfo.sub;
 
-      const response = await apiClient.post("http://localhost:6546/api/signin", { tokenId: userId, companyName });
+      const response = await apiClient.post(
+        "http://localhost:6546/api/signin",
+        { tokenId: userId, companyName }
+      );
 
       if (response.status === 201) {
         setUserInfo(response.data.user);
@@ -82,8 +94,8 @@ export default function Recruit() {
   const signIn = useGoogleLogin({
     onSuccess,
     onFailure,
-    scope: 'openid email profile',
-    flow: 'implicit',
+    scope: "openid email profile",
+    flow: "implicit",
   });
 
   const handleSignInClick = () => {
@@ -97,6 +109,15 @@ export default function Recruit() {
       setIsDialogOpen(true);
       return;
     }
+    signIn();
+  };
+  const handleSignInClickk = () => {
+    if (SeekerInfo.tokenID != null) {
+      setDialogMessage("You have to sign out before that.");
+      setIsDialogOpen(true);
+      return;
+    }
+
     signIn();
   };
 
@@ -131,9 +152,17 @@ export default function Recruit() {
                 Sign In with Google
               </Button>
             </div>
+            {" "}
           </motion.div>
-          <motion.div className="lg:col-span-4 mt-[-40px]" variants={itemVariants}>
-            <img src={ab} alt="Hiring illustration" className="w-full h-auto max-w-[700px] max-h-[540px] rounded-xl" />
+          <motion.div
+            className="lg:col-span-4 mt-[-40px]"
+            variants={itemVariants}
+          >
+            <img
+              src={ab}
+              alt="Hiring illustration"
+              className="w-full h-auto max-w-[700px] max-h-[540px] rounded-xl"
+            />
           </motion.div>
         </motion.div>
       </div>

@@ -19,7 +19,8 @@ export default function Exam() {
   const [isAnomalyDetected, setIsAnomalyDetected] = useState(false);
   const [hasTakenTest, setHasTakenTest] = useState(false);
   const [showDialog, setShowDialog] = useState(false); 
-  const [anomalyDialog, setAnomalyDialog] = useState(false); // For anomaly detection dialog
+  const [anomalyDialog, setAnomalyDialog] = useState(false);
+ // For anomaly detection dialog
   // State for alert visibility
 
   const jobId = new URLSearchParams(window.location.search).get("jobId");
@@ -62,7 +63,13 @@ export default function Exam() {
         }
 
         const data = await response.json();
+
+        if (data.questions && data.questions.length > 60) {
+          // Randomly select 10 questions and set them in the job object
+          data.questions = data.questions.sort(() => 0.5 - Math.random()).slice(0, 10);
+        }
         setJob(data);
+        
       } catch (error) {
         setError(error.message);
         console.error("Failed to fetch job", error);
@@ -163,7 +170,10 @@ export default function Exam() {
       setScore(correctAnswers);
       setIsSubmitted(true);
       
-  
+       // Exit fullscreen automatically
+    if (document.fullscreenElement) {
+      document.exitFullscreen();
+    }
 
       try {
         const response = await fetch('http://localhost:6546/api/tookTest', {
@@ -293,7 +303,7 @@ export default function Exam() {
           </CardContent>
         </Card>
       ) : (
-        <Card className="w-full max-w-3xl p-8 mb-28 rounded-lg shadow-lg">
+        <Card className="w-full mt-24  max-w-3xl p-8 mb-28 rounded-lg shadow-lg">
           <CardHeader className="mb-6">
             <div className="flex items-center justify-between">
               <Button
