@@ -24,7 +24,7 @@ export  default function FeedbackDrawer() {
   const handleSubmit = async () => {
     try {
       const response = await apiClient.post(
-        "http://localhost:6546/api/feedback",
+        "/api/feedback",
         {
           rating,
           feedback,

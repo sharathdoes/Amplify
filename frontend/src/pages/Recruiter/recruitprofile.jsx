@@ -7,6 +7,7 @@ import { PlusCircle, Briefcase, Calendar, MapPin } from 'lucide-react';
 import { useAppStore } from "@/store";
 import { useNavigate } from "react-router-dom";
 import axios from 'axios';
+import { apiClient } from "@/lib/apiClient";
 
 export default function JobDashboard() {
   const [selectedJob, setSelectedJob] = useState(null);
@@ -19,8 +20,9 @@ export default function JobDashboard() {
   useEffect(() => {
     async function fetchJobs() {
       try {
-        const response = await fetch(`http://localhost:6546/api/jobsbytokenid?tokenId=${tokenId}`);
-        const data = await response.json();
+        const response = await apiClient.get(`/api/jobsbytokenid?tokenId=${tokenId}`);
+        console.log(response);
+        const data = await response.data;
         if (Array.isArray(data)) {
           setJobPostings(data);
         } else {
@@ -47,7 +49,7 @@ export default function JobDashboard() {
   
     try {
       // Perform a soft delete using a PATCH request
-      await axios.post(`http://localhost:6546/api/jobs/${selectedJob._id}/soft-delete`);
+      await apiClient.post(`/api/jobs/${selectedJob._id}/soft-delete`);
       
       // Refresh job postings after deletion
       setJobPostings(prevJobs => prevJobs.filter(job => job._id !== selectedJob._id));

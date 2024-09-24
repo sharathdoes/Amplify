@@ -6,6 +6,8 @@ import { useAppStore } from "@/store";
 import { Dialog, DialogTitle, DialogContent } from "@/components/ui/dialog"; // Updated import
 import { useNavigate } from "react-router-dom";
 import {toast} from "sonner";
+import { apiClient } from "@/lib/apiClient";
+
 export default function Exam() {
   const [job, setJob] = useState(null);
   const [answers, setAnswers] = useState({});
@@ -51,18 +53,12 @@ export default function Exam() {
   useEffect(() => {
     const fetchJob = async () => {
       try {
-        const response = await fetch(`http://localhost:6546/api/jobs/${jobId}`, {
-          method: "GET",
-          headers: {
-            "Content-Type": "application/json",
-          },
-        });
-
-        if (!response.ok) {
-          throw new Error("Network response was not ok");
+        const response = await apiClient.get(`/api/jobs/${jobId}`); 
+        console.log(response)
+        if (response.status < 200 || response.status >= 300) {
+          throw new Error(`Network response was not ok: ${response.status}`);
         }
-
-        const data = await response.json();
+        const data =  response.data;
 
         if (data.questions && data.questions.length > 60) {
           // Randomly select 10 questions and set them in the job object
@@ -84,19 +80,16 @@ export default function Exam() {
   useEffect(() => {
     const checkTestStatus = async () => {
       try {
-        const response = await fetch('http://localhost:6546/api/didhe', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ tokenID: SeekerInfo.tokenID, jobId }),
+        const response = await apiClient.post('/api/didhe', { // Adjusted to remove '/api' from the path if your baseURL includes it
+          tokenID: SeekerInfo.tokenID,
+          jobId,
         });
+      
 
-        if (!response.ok) {
-          throw new Error("Failed to check test status");
-        }
-
-        const data = await response.json();
+        if (response.status < 200 || response.status >= 300) {
+          throw new Error(`Network response was not ok: ${response.status}`);
+        } 
+        const data = await response.data;
         setHasTakenTest(data.hasTakenTest);
       } catch (error) {
         console.error("Failed to check test status", error);
@@ -146,14 +139,10 @@ export default function Exam() {
       setAnomalyDialog(true);
 
       try {
-        const response = await fetch('http://localhost:6546/api/tookTest', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ tokenID: SeekerInfo.tokenID, jobId }),
+        const response = await apiClient.post('/tookTest', { // Adjust the endpoint as needed
+          tokenID: SeekerInfo.tokenID,
+          jobId,
         });
-
         if (!response.ok) {
           throw new Error("Failed to update test status");
         }
@@ -176,7 +165,7 @@ export default function Exam() {
     }
 
       try {
-        const response = await fetch('http://localhost:6546/api/tookTest', {
+        const response = await apiClient.post('/api/tookTest', {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',

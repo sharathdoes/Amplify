@@ -74,7 +74,7 @@ export default function Recruit() {
       const userId = userInfo.sub;
 
       const response = await apiClient.post(
-        "http://localhost:6546/api/signin",
+        "/api/signin",
         { tokenId: userId, companyName }
       );
 
