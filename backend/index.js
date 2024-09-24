@@ -1,4 +1,5 @@
 import 'dotenv/config';
+import path from 'path';
 import express from 'express';
 import bodyParser from 'body-parser';
 import cors from 'cors';
@@ -10,7 +11,9 @@ import feedbackroute from './routes/feedbackroute.js'
 import seekerroute from './routes/Seekerroute.js'
 
 const app = express();
+const __dirname = path.dirname(new URL(import.meta.url).pathname);
 
+app.use(express.static(path.join(__dirname,'../frontend/dist')))
 app.use(cors({
   origin: process.env.ORIGIN,
   methods:["GET","PUT","POST"],
