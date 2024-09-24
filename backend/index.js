@@ -12,20 +12,10 @@ import seekerroute from './routes/Seekerroute.js'
 const app = express();
 
 app.use(cors({
-  origin: process.env.ORIGIN, // Set this to your frontend URL (e.g., "https://amplify-51zx.vercel.app")
-  methods: ["GET", "POST", "PUT", "DELETE", "OPTIONS"],
-  credentials: true // Allow credentials like cookies
+  origin: "https://amplify-51zx.vercel.app",
+  methods:["GET","PUT","POST"],
+  credentials: true
 }));
-
-// Set CORS headers for preflight requests (OPTIONS)
-app.use(function (req, res, next) {
-  res.header("Access-Control-Allow-Origin", process.env.ORIGIN); // Specific origin for security
-  res.header("Access-Control-Allow-Methods", "GET,HEAD,OPTIONS,POST,PUT,DELETE");
-  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept, Authorization");
-  res.header("Access-Control-Allow-Credentials", "true"); // Allow cookies and credentials
-  next();
-});
-
 app.use(bodyParser.json()); // Parse JSON bodies
 app.use(cookieParser());
 app.use(express.json());
