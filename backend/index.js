@@ -12,6 +12,7 @@ import seekerroute from './routes/Seekerroute.js';
 const app = express();
 const __dirname = path.resolve();
 
+
 app.use(cors()); // Allow CORS
 app.use(express.static(path.join(__dirname, '../frontend/dist')));
 app.use(express.json()); // Parse JSON bodies
