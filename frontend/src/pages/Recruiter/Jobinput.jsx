@@ -8,7 +8,7 @@ import { useAppStore } from "@/store";
 import { apiClient } from "@/lib/apiClient";
 import { useNavigate } from "react-router-dom";
 import { toast } from "sonner"; // Import toast from Sonner
-
+import axios from "axios";
 export default function Jobinput() {
   const navigate = useNavigate();
   const { userInfo } = useAppStore();
