@@ -11,7 +11,9 @@ from flask_cors import CORS
 
 # Initialize Flask
 app = Flask(__name__)
-CORS(app)  # Enable CORS
+
+# Enable CORS for specific frontend origin
+CORS(app, origins=["http://localhost:6546"])  # Replace with your frontend URL
 
 # Initialize NLTK tools
 nltk.download('punkt')
@@ -53,7 +55,7 @@ def extract_text_from_pdf(file):
     pdf_reader = PdfReader(file)
     full_text = ""
     for page in pdf_reader.pages:
-        full_text += page.extract_text() or ""  # Ensure full_text is updated with non-null values
+        full_text += page.extract_text()
     return full_text
 
 # Endpoint to process the resume
@@ -94,5 +96,4 @@ def analyze_resume():
     })
 
 if __name__ == '__main__':
-    print("Server is running on http://127.0.0.1:5000")
     app.run(debug=True)
