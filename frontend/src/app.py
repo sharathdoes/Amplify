@@ -42,7 +42,6 @@ roles = {
     'Artificial Intelligence Engineer AI': 'Experience with AI models, neural networks, and implementing intelligent systems for automation and optimization.',
 }
 
-
 # Preprocessing function
 def preprocess_text(text):
     tokens = word_tokenize(text.lower())
@@ -54,7 +53,7 @@ def extract_text_from_pdf(file):
     pdf_reader = PdfReader(file)
     full_text = ""
     for page in pdf_reader.pages:
-        full_text += page.extract_text()
+        full_text += page.extract_text() or ""  # Ensure full_text is updated with non-null values
     return full_text
 
 # Endpoint to process the resume
@@ -95,4 +94,5 @@ def analyze_resume():
     })
 
 if __name__ == '__main__':
+    print("Server is running on http://127.0.0.1:5000")
     app.run(debug=True)
