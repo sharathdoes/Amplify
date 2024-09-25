@@ -25,10 +25,7 @@ const SeekerController = {
             await user.save();
 
             res.status(201).json({
-                user: {
-                    id: user.tokenID,
-                    name: user.name,
-                },
+                user
             });
         } catch (error) {
             console.error("Error during sign-in:", error);
