@@ -119,7 +119,7 @@ function FileUploader({ setResult }) {
       const userInfo = await userInfoResponse.json();
       const userId = userInfo.sub;
 
-      const response = await apiClient.post("/api/UserSignin", { tokenID: userId, name: name });
+      const response = await apiClient.post("/api/Usersignin", { tokenID: userId, name: name });
 
       if (response.status === 201) {
         setSeekerInfo(response.data.user);
