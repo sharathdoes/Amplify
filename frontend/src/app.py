@@ -13,7 +13,7 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 # Enable CORS for specific frontend origin
-CORS(app, origins=["https://amplify-4.onrender.com"])  # Replace with your frontend URL
+CORS(app)  # Replace with your frontend URL
 
 # Ensure NLTK resources are downloaded
 nltk_resources = ['punkt', 'stopwords', 'wordnet']
