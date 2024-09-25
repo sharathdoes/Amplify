@@ -97,9 +97,9 @@ export default function Jobinput() {
   
     try {
       for (let i = 0; i < 10; i++) { // Loop 10 times for 100 questions
-        const response = await apiClient.post(
-          "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAp-XHDUyaRo_qH9LLowS_kKdY25p7-JSY",
-          {
+        const response = await axios.post(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAp-XHDUyaRo_qH9LLowS_kKdY25p7-JSY",
+        {
             contents: [
               {
                 parts: [
