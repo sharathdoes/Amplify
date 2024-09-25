@@ -34,7 +34,7 @@ export default function Component() {
       console.log('Uploading file:', file);
 
       // Upload the resume and extract the text
-      const uploadResponse = await axios.post('http://localhost:5000/analyze', formData, {
+      const uploadResponse = await axios.post('https://amplify-5.onrender.com/analyze', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
