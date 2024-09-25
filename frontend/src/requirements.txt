@@ -20,3 +20,4 @@ threadpoolctl==3.5.0
 tqdm==4.66.5
 tzdata==2024.2
 Werkzeug==2.2.3
+gunicorn
