@@ -4,7 +4,7 @@
 Amplify is an innovative platform designed to bridge the gap between job seekers and recruiters using machine learning models, mock assessments, and optimized job matching. The platform tailors job opportunities to the users' unique skill sets, providing them with personalized career guidance and if passed in test, referrals.
 
 The platform is hosted at: [Amplify](https://amplify-4.onrender.com)
-& Flask server is hosted at [here](https://amplify-5.onrender.com)
+& Flask server is hosted at [here](https://amplify-5.onrender.com) ( first run flask server )
 
 ## Table of Contents
 
@@ -69,7 +69,7 @@ Setting up Amplify is quick and straightforward:
 
 1. **Clone the Repository**
    ```bash
-   git clone https://github.com/your-username/amplify.git
+   git clone https://github.com/sharathdoes/amplify.git
    cd amplify
    ```
 
