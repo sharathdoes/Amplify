@@ -6,6 +6,8 @@ Amplify is an innovative platform designed to bridge the gap between job seekers
 The platform is hosted at: [Amplify](https://amplify-4.onrender.com)
 & Flask server is hosted at [here](https://amplify-5.onrender.com) ( first run flask server )
 
+Have to update Git Ignore file. 
+
 ## Table of Contents
 
 - [Overview](#overview)
