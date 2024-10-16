@@ -52,7 +52,7 @@ function FileUploader({ setResult }) {
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadResponse = await axios.post('http://127.0.0.1:5000/analyze', formData, {
+      const uploadResponse = await axios.post('https://amplify-5.onrender.com/analyze', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
