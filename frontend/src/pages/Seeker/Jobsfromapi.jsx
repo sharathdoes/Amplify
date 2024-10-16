@@ -51,7 +51,7 @@ const JobSearch = () => {
   useEffect(() => {
     fetchJobs(); // Initial call to fetch jobs
 
-    const intervalId = setInterval(fetchJobs, 60 * 1000); // Fetch jobs every 24 hours
+    const intervalId = setInterval(fetchJobs, 12*60*60 * 1000); // Fetch jobs every 24 hours
 
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, []);
