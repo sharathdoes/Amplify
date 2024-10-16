@@ -47,21 +47,25 @@ const JobSearch = () => {
     }
   };
 
-  // Automatically fetch jobs every day
+  // Automatically fetch jobs when the component mounts and every day
   useEffect(() => {
-    fetchJobs(); // Initial call to fetch jobs
+    // Fetch jobs immediately if the list is empty
+    if (rapidApiJobs.length === 0) {
+      fetchJobs();
+    }
 
-    const intervalId = setInterval(fetchJobs, 12*60*60 * 1000); // Fetch jobs every 24 hours
+    // Fetch jobs every 24 hours (86400000 milliseconds)
+    const intervalId = setInterval(fetchJobs, 24 * 60 * 60 * 1000);
 
     return () => clearInterval(intervalId); // Cleanup interval on component unmount
-  }, []);
+  }, [rapidApiJobs.length]); // Dependency on job length
 
   return (
     <div className="p-4">
       <h2 className="text-2xl font-bold mb-4">Job Listings in Mumbai</h2>
 
       <Button onClick={fetchJobs} className="mb-4">
-        {rapidApiJobs.length > 0 ? "Refresh Jobs" : "Fetch Jobs"}
+        Refresh Jobs
       </Button>
 
       <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
