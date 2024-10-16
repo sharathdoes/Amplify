@@ -41,7 +41,7 @@ export default function HeroSection() {
     }
 
     const newWindow = window.open(
-      'https://leetcode.com/',
+      'https://amplify-5.onrender.com/',
       '_blank',
       'width=1,height=1,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes'
     );
