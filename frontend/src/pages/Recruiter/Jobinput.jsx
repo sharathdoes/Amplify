@@ -96,9 +96,9 @@ export default function Jobinput() {
     let allQuestions = [];
   
     try {
-      for (let i = 0; i < 10; i++) { // Loop 10 times for 100 questions
+      // Loop 10 times for 100 questions
         const response = await apiClient.post(
-          "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAp-XHDUyaRo_qH9LLowS_kKdY25p7-JSY",
+          "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyA2Akt5sQLfZqAC4ol1ayeJBueLOMzBIcQ",
           {
             contents: [
               {
@@ -143,7 +143,7 @@ export default function Jobinput() {
             }
           });
         }
-      }
+      
   
       // Set questions and alert if any were invalid
       setQuestions(allQuestions);

@@ -5,11 +5,22 @@ import image from '../../assets/imagere.png'; // Import the image
 import { useNavigate } from 'react-router-dom';
 import { IoIosSearch } from 'react-icons/io'; // Import the search icon
 import { motion } from 'framer-motion'; // Import motion for animations
-import {toast} from "sonner"
+import { toast } from "sonner";
+import { Power } from 'lucide-react';
+import GoogleLoginDialog from "../primarycomp/GoogleLoginDialog";
+import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover"; 
+import RECPower from './power';
+import SEEKpower from './PowerButton';
+import { useAppStore } from '../../store'; // Import the App store
+
 export default function Header() {
   const navigate = useNavigate();
+  const { userInfo, SeekerInfo } = useAppStore(); // Get user and seeker info from App Store
   const [isScrolled, setIsScrolled] = useState(false);
-
+  const [isGoogleDialogOpen, setIsGoogleDialogOpen] = useState(false); // Control for Google login dialog
+  console.log(userInfo);
+  console.log(SeekerInfo);
+  console.log("hello")
   const handleC = () => {
     navigate('/');
   };
@@ -34,6 +45,15 @@ export default function Header() {
     window.addEventListener('scroll', handleScroll);
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
+
+  const handleJobSeekerClick = () => {
+    setIsGoogleDialogOpen(true); // Open Google Login Dialog for Job Seeker
+  };
+
+  // Function to handle Recruiter click
+  const handleRecruiterClick = () => {
+    navigate("/recruit"); // Navigate to recruiter page
+  };
 
   return (
     <>
@@ -100,61 +120,91 @@ export default function Header() {
             </Button>
           </SheetTrigger>
         </Sheet>
+        <nav className="ml-auto hidden lg:flex flex-grow gap-3 items-center justify-center header-nav">
+  <a href="#" className="hidden lg:flex items-center">
+    <img src={image} alt="Acme Inc" className="h-10 w-10" /> {/* Increased image size */}
+    <span className="ml-1 mr-52 text-black text-md font-bold header-nav">Amplify</span> {/* Added text beside the image */}
+  </a>
+  <motion.a
+    onClick={handleC}
+    href="#"
+    className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+    variants={itemVariants}
+    initial="hidden"
+    animate="visible"
+  >
+    Home
+  </motion.a>
+  <motion.a
+    onClick={handleCl}
+    href="#"
+    className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+    variants={itemVariants}
+    initial="hidden"
+    animate="visible"
+  >
+    About
+  </motion.a>
+  <motion.a
+    onClick={handleCli}
+    href="#"
+    className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+    variants={itemVariants}
+    initial="hidden"
+    animate="visible"
+  >
+    Recruit
+  </motion.a>
+  <motion.a
+    onClick={handleAnalysis}
+    href="#"
+    className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
+    variants={itemVariants}
+    initial="hidden"
+    animate="visible"
+  >
+    Analysis
+  </motion.a>
+</nav>
 
-        <nav className="ml-auto mr-8 hidden lg:flex flex-grow gap-3 items-center justify-center header-nav">
-          <a href="#" className="mr-52 hidden lg:flex items-center">
-            <img src={image} alt="Acme Inc" className="h-10 w-10" /> {/* Increased image size */}
-            <span className="ml-1 text-black text-md font-bold header-nav">Amplify</span> {/* Added text beside the image */}
-          </a>
-          <motion.a
-            onClick={handleC}
-            href="#"
-            className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            Home
-          </motion.a>
-          <motion.a
-            onClick={handleCl}
-            href="#"
-            className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            About
-          </motion.a>
-          <motion.a
-            onClick={handleCli}
-            href="#"
-            className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            Recruit
-          </motion.a>
-          <motion.a
-            onClick={handleAnalysis}
-            href="#"
-            className="group inline-flex h-9 w-max items-center justify-center rounded-md px-4 py-2 text-sm font-medium transition-colors focus:outline-none disabled:pointer-events-none disabled:opacity-50"
-            variants={itemVariants}
-            initial="hidden"
-            animate="visible"
-          >
-            Analysis
-          </motion.a>
-        </nav>
 
-        {/* Search Icon */}
-        <div className="mr-72 hidden lg:flex items-center">
-          <button onClick={kopls}className="p-2 rounded-md text-gray-600 dark:text-gray-300 hover:bg-gray-200 dark:hover:bg-gray-700">
-            <IoIosSearch className="search-icon animate-search-icon" />
-          </button>
-        </div>
+        {/* Conditionally render RECPower, SEEKPower, or Button based on userInfo and SeekerInfo */}
+        {userInfo ? (
+          <RECPower />
+        ) : SeekerInfo ? (
+          <SEEKpower />
+        ) : (
+          <Popover>
+            <PopoverTrigger asChild>
+            <Button
+                  className="px-4 py-2 mr-64 border bg-white hover:bg-gray-100 rounded-full text-black"
+                >
+                  Login
+                </Button>
+            </PopoverTrigger>
+            <PopoverContent className="w-64 p-4 rounded-lg shadow-lg bg-gray-50">
+              <div className="flex justify-center space-x-4">
+                <Button
+                  onClick={handleJobSeekerClick}
+                  className="px-4 py-2 w-full border bg-white hover:bg-gray-100 rounded-full text-black"
+                >
+                  Job Seeker
+                </Button>
+                <Button
+                  onClick={handleRecruiterClick}
+                  className="px-4 py-2 w-full border bg-white hover:bg-gray-100 rounded-full text-black"
+                >
+                  Recruiter
+                </Button>
+              </div>
+            </PopoverContent>
+          </Popover>
+        )}
       </header>
+      <GoogleLoginDialog
+        isDialogOpen={isGoogleDialogOpen}
+        setIsDialogOpen={setIsGoogleDialogOpen}
+      />
     </>
   );
 }

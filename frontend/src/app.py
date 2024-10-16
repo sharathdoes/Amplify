@@ -11,18 +11,25 @@ from flask_cors import CORS
 
 # Initialize Flask
 app = Flask(__name__)
-CORS(app)  # Enable CORS
+
+# Enable CORS for specific frontend origin
+CORS(app)  # Replace with your frontend URL
+
+# Ensure NLTK resources are downloaded
+nltk_resources = ['punkt', 'stopwords', 'wordnet']
+for resource in nltk_resources:
+    try:
+        nltk.data.find(resource)
+    except LookupError:
+        nltk.download(resource)
 
 # Initialize NLTK tools
-nltk.download('punkt')
-nltk.download('stopwords')
-nltk.download('wordnet')
 lemmatizer = WordNetLemmatizer()
 stop_words = set(stopwords.words('english'))
 
 # Sample role descriptions
 roles = {
-    'Backend Developer': 'Experience with backend technologies such as Java, Python, SpringBoot, and building RESTful APIs.',
+   'Backend Developer': 'Experience with backend technologies such as Java, Python, SpringBoot, and building RESTful APIs.',
     'Full-Stack Developer': 'Experience in both frontend and backend technologies, including MERN stack, and integration of frontend with backend services.',
     'Machine Learning AI Engineer': 'Experience with machine learning algorithms, data analysis, and implementing predictive models.',
     'Product Manager': 'Experience with managing development teams, understanding user needs, and leading product development initiatives.',
@@ -42,7 +49,6 @@ roles = {
     'Artificial Intelligence Engineer AI': 'Experience with AI models, neural networks, and implementing intelligent systems for automation and optimization.',
 }
 
-
 # Preprocessing function
 def preprocess_text(text):
     tokens = word_tokenize(text.lower())
@@ -54,7 +60,8 @@ def extract_text_from_pdf(file):
     pdf_reader = PdfReader(file)
     full_text = ""
     for page in pdf_reader.pages:
-        full_text += page.extract_text()
+        text = page.extract_text() or ""
+        full_text += text
     return full_text
 
 # Endpoint to process the resume
@@ -69,6 +76,8 @@ def analyze_resume():
 
     # Extract text from PDF
     resume_text = extract_text_from_pdf(file)
+    if not resume_text:
+        return jsonify({"error": "Could not extract text from the PDF"}), 400
 
     # Create DataFrame for roles
     role_df = pd.DataFrame(list(roles.items()), columns=['Role', 'Description'])
@@ -91,7 +100,7 @@ def analyze_resume():
 
     return jsonify({
         'roles': top_roles,
-        'extracted_text': resume_text
+        'extracted_text': resume_text  # Limiting extracted text in response for readability
     })
 
 if __name__ == '__main__':

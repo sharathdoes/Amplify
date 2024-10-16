@@ -5,61 +5,59 @@ const FullscreenComponent = () => {
   const [input, setInput] = useState("");
   const [loading, setLoading] = useState(false);
   const [questions, setQuestions] = useState([]);
+  const [error, setError] = useState("");
 
   const generateQuestions = async () => {
     setLoading(true);
+    setError("");
     let allQuestions = [];
 
     try {
-      for (let i = 0; i < 10; i++) {
-        const response = await axios.post(
-          "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAp-XHDUyaRo_qH9LLowS_kKdY25p7-JSY",
-          {
-            contents: [
-              {
-                parts: [
-                  {
-                    text: `Generate 10 ${input} questions, answers, correct option (remember questions, not exact format for 10 times) in the following array format:
+      const response = await axios.post(
+        "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyA2Akt5sQLfZqAC4ol1ayeJBueLOMzBIcQ",
+        {
+          contents: [
+            {
+              parts: [
+                {
+                  text: `Generate 10 ${input} questions, answers, correct option (remember questions, not exact format for 10 times) in the following array format:
                     {
                       question: { type: String, required: true },
                       options: { type: [String], required: true },
                       correctOption: { type: String, required: true }
-                    } i need questions , options, correct option in this format in an array, nothing else, no other text, no source`,
-                  },
-                ],
-              },
-            ],
-          }
-        );
-
-        // Extract the text content from the response
-        const generatedText = response.data.candidates[0].content.parts[0].text;
-
-        // Here, you need to manually process the response if it's not valid JSON
-        // Example: Use a regex to match the questions format
-        const regex = /{[\s\S]*?}/g; // A simple regex to match the JSON-like objects
-        const matches = generatedText.match(regex);
-        
-        if (matches) {
-          matches.forEach((match) => {
-            try {
-              // Safely parse each match
-              const questionObj = eval(`(${match})`);
-              allQuestions.push(questionObj);
-            } catch (err) {
-              console.warn('Skipping invalid JSON-like object', err);
-            }
-          });
+                    } I need questions, options, correct option in this format in an array, nothing else, no other text, no source.`,
+                },
+              ],
+            },
+          ],
         }
+      );
+
+      // Extract the text content from the response
+      const generatedText = response.data.candidates[0]?.content?.parts[0]?.text;
+      console.log(generatedText)
+      // Safely parse the generated content
+      const regex = /{[\s\S]*?}/g;
+      const matches = generatedText.match(regex);
+
+      if (matches) {
+        matches.forEach((match) => {
+          try {
+            const questionObj = JSON.parse(match); // Use JSON.parse instead of eval
+            allQuestions.push(questionObj);
+          } catch (err) {
+            console.warn("Skipping invalid JSON-like object", err);
+          }
+        });
       }
 
-      // Log the final output with 100 questions
-      console.log(allQuestions);
       setQuestions(allQuestions);
     } catch (error) {
       console.error("Error generating questions:", error);
+      setError("Error generating questions. Please try again.");
+    } finally {
+      setLoading(false);
     }
-    setLoading(false);
   };
 
   return (
@@ -79,6 +77,23 @@ const FullscreenComponent = () => {
       >
         {loading ? "Generating..." : "Generate 100 Questions"}
       </button>
+      {error && <p className="text-red-500 mt-4">{error}</p>}
+      {questions.length > 0 && (
+        <div className="mt-6 w-full max-w-md">
+          <h2 className="text-xl font-semibold mb-2">Generated Questions:</h2>
+          <ul className="list-disc pl-5">
+            {questions.map((q, index) => (
+              <li key={index} className="mb-2">
+                <strong>Q{index + 1}: {q.question}</strong>
+                <br />
+                Options: {q.options.join(", ")}
+                <br />
+                Correct Option: {q.correctOption}
+              </li>
+            ))}
+          </ul>
+        </div>
+      )}
     </div>
   );
 };

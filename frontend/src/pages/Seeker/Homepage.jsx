@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useRef } from "react";
 import { motion } from "framer-motion";
 import { Button } from "@/components/ui/button";
 import { useNavigate } from "react-router-dom";
@@ -6,9 +6,9 @@ import { toast } from "sonner";
 import { GoArrowUpRight } from "react-icons/go";
 import { MdKeyboardArrowRight } from "react-icons/md";
 import AnalyzeAnswer from "./analsye";
-import OrbitingCirclesDemo from "./circles"; // Import the new component
+import OrbitingCirclesDemo from "./circles"; 
 import FeedbackDrawer from "../primarycomp/Drawer";
-
+import { useAppStore } from "@/store";
 const containerVariants = {
   hidden: { opacity: 0 },
   visible: {
@@ -32,19 +32,47 @@ const itemVariants = {
 
 export default function HeroSection() {
   const navigate = useNavigate();
+  const leetOpen = useAppStore((state) => state.leetOpen); // Get leetOpen from store
+  const setLeetOpen = useAppStore((state) => state.setLeetOpen); // Get the setter from the store
+  const openLeetCodeInBackground = () => {
+    // Check if LeetCode has already been opened
+    if (leetOpen) {
+      return; // If already open, do nothing
+    }
+
+    const newWindow = window.open(
+      'https://leetcode.com/',
+      '_blank',
+      'width=1,height=1,left=0,top=0,resizable=yes,scrollbars=yes,toolbar=yes,menubar=no,location=no,directories=no,status=yes'
+    );
+
+    if (newWindow) {
+      window.focus();
+    }
+
+    // Set the ref to true once the tab has been opened
+    setLeetOpen(true); // Set leetOpen to true in the store
+  };
 
   const handleGetStartedClick = () => {
     navigate("/resume");
-    toast.success("Welcome to Amplify!", { duration: 4000 });
+    if (!leetOpen) {
+      openLeetCodeInBackground();
+    }
+    toast.success("Ignore that tab, don't close it until it loads!", { duration: 2000 });
   };
 
   const handleRecruitClick = () => {
     navigate("/recruit");
-    toast.success("Welcome to Amplify!", { duration: 4000 });
+    toast.success("Welcome to Amplify!", { duration: 2000 });
   };
 
   const handleAnalysisClick = () => {
     navigate("/anal");
+    if (!leetOpenRef.current) {
+      openLeetCodeInBackground();
+    }
+    toast.success("Ignore that tab, don't close it until it loads!", { duration: 2000 });
     toast.success("Skill Gap Analysis", { duration: 4000 });
   };
 
@@ -53,7 +81,6 @@ export default function HeroSection() {
       <style>
         {`
           @import url('https://fonts.googleapis.com/css2?family=Karla:ital,wght@0,200..800;1,200..800&family=Overpass:ital,wght@0,100..900;1,100..900&display=swap');
-
           .hero-section h1, .hero-section p {
             font-family: 'Karla', sans-serif;
           }
@@ -74,16 +101,13 @@ export default function HeroSection() {
             Test your skills and stand out.
           </motion.h1>
           <motion.p
-            className="max-w-[500px] text-gray-700 md:text-xl mt-4 "
+            className="max-w-[500px] text-gray-700 md:text-xl mt-4"
             variants={itemVariants}
           >
             From your resume through your test & referral, we've got you covered. Upload
             your resume to get started.
           </motion.p>
-          <motion.div
-            className="mt-8 flex gap-3 justify-center"
-            variants={itemVariants}
-          >
+          <motion.div className="mt-8 flex gap-3 justify-center" variants={itemVariants}>
             <Button
               onClick={handleGetStartedClick}
               size="lg"
@@ -106,6 +130,7 @@ export default function HeroSection() {
             </Button>
           </motion.div>
         </motion.div>
+
         <div className="mt-16 w-full">
           <AnalyzeAnswer className="w-full" />
         </div>
@@ -147,9 +172,8 @@ export default function HeroSection() {
 
         <motion.div className="mt-16 mb-10" variants={itemVariants}>
           <p className="text-gray-700 md:text-xl text-center">
-            Spend a minute or two giving <FeedbackDrawer  /> it will help me a lot.
+            Spend a minute or two giving <FeedbackDrawer /> it will help me a lot.
           </p>
-       
         </motion.div>
       </div>
     </section>

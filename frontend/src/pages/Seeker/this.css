@@ -9,7 +9,7 @@
 
 @keyframes marquee-reverse {
   0% {
-    transform: translateX(0);
+    transform: translateX(0%);
   }
   100% {
     transform: translateX(100%);
@@ -18,17 +18,25 @@
 
 /* First row animation */
 .track {
-  animation: marquee 150s linear infinite;
+  animation: marquee 200s linear infinite;
 }
 
 .track:hover {
   animation-play-state: paused;
 }
 
-/* Second row animation with 30px start offset */
+/* Second row animation with offset */
+@keyframes marquee-second-row {
+  0% {
+    transform: translateX(200px); /* Start with the offset */
+  }
+  100% {
+    transform: translateX(calc(-100% + 200px)); /* Adjust the endpoint with the offset */
+  }
+}
+
 .second-row {
-  animation: marquee 150s linear infinite; /* Same speed */
-  transform: translateX(120px); /* Shift start by 30px */
+  animation: marquee-second-row 200s linear infinite; /* Use the new keyframes */
 }
 
 .second-row:hover {

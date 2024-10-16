@@ -13,8 +13,8 @@ const SeekerController = {
                     .json({ message: "Token ID and name are required" });
             }
 
-            let user = await Seeker.findOne({ tokenID });
-
+            let users = await Seeker.find({ tokenID });
+            let user = users[0] || null; 
             if (user) {
                 // User exists
                 return res.status(201).json({ message: "User already exists", user });
@@ -25,10 +25,7 @@ const SeekerController = {
             await user.save();
 
             res.status(201).json({
-                user: {
-                    id: user.tokenID,
-                    name: user.name,
-                },
+                user
             });
         } catch (error) {
             console.error("Error during sign-in:", error);

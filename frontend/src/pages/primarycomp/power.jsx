@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { useAppStore } from '../../store'; // Adjust the import path as needed
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const PowerB = () => {
+const RECPower = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate
   
@@ -39,13 +39,10 @@ const PowerB = () => {
 
   return (
     <>
-      <button
-        onClick={handleClick}
-        className="fixed bottom-4 ml-3 mb-3 left-4 p-3 bg-white shadow-lg rounded-full hover:bg-gray-100 transition duration-300"
-      >
-        <Power className="text-black w-4 h-4" />
-      </button>
-
+    
+      <button onClick={handleClick} className="p-1  mr-72 rounded-md flex items-center">
+                <Power className="w-4 h-4 " />
+              </button>
       {/* Dialog for logout confirmation */}
       <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
         <DialogContent>
@@ -73,4 +70,4 @@ const PowerB = () => {
   );
 };
 
-export default PowerB;
+export default RECPower;

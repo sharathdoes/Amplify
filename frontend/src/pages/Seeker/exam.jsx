@@ -139,7 +139,7 @@ export default function Exam() {
       setAnomalyDialog(true);
 
       try {
-        const response = await apiClient.post('/tookTest', { // Adjust the endpoint as needed
+        const response = await apiClient.post('/api/tookTest', { 
           tokenID: SeekerInfo.tokenID,
           jobId,
         });
@@ -165,12 +165,9 @@ export default function Exam() {
     }
 
       try {
-        const response = await apiClient.post('/api/tookTest', {
-          method: 'POST',
-          headers: {
-            'Content-Type': 'application/json',
-          },
-          body: JSON.stringify({ tokenID: SeekerInfo.tokenID, jobId }),
+        const response = await apiClient.post('/api/tookTest', { 
+          tokenID: SeekerInfo.tokenID,
+          jobId,
         });
 
         if (!response.ok) {

@@ -6,18 +6,18 @@ const ProtectedRoute = ({ element, seekerOnly, recruiterOnly }) => {
   const { SeekerInfo, userInfo } = useAppStore();
 
   // If it's a seeker-only route and seeker info is not set, block access
-  if (seekerOnly && !SeekerInfo.tokenID) {
+  if (seekerOnly && !SeekerInfo) {
     console.log('nahh')
     return <div className='text-black'>You can't access this page until you log in as a seeker.</div>;
   }
 
   // If it's a recruiter-only route and user info is not set, block access
-  if (recruiterOnly && !userInfo.tokenId) {
+  if (recruiterOnly && !userInfo) {
     return <div className='text-black'>You can't access this page until you log in as a recruiter.</div>;
   }
 
   // If both SeekerInfo and userInfo are not set for routes that require either, block access
-  if (!SeekerInfo.tokenID && !userInfo.tokenId) {
+  if (!SeekerInfo && !userInfo) {
     return <Navigate to="/" replace />;
   }
 

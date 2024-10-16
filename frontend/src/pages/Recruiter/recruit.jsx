@@ -77,7 +77,8 @@ export default function Recruit() {
         "/api/signin",
         { tokenId: userId, companyName }
       );
-
+console.log("this i srecur")
+console.log(response.data.user)
       if (response.status === 201) {
         setUserInfo(response.data.user);
         navigate("/rprofile");
@@ -99,7 +100,7 @@ export default function Recruit() {
   });
 
   const handleSignInClick = () => {
-    if (SeekerInfo.tokenID != null) {
+    if (SeekerInfo != null) {
       setDialogMessage("You have to sign out before that.");
       setIsDialogOpen(true);
       return;
@@ -112,7 +113,7 @@ export default function Recruit() {
     signIn();
   };
   const handleSignInClickk = () => {
-    if (SeekerInfo.tokenID != null) {
+    if (SeekerInfo != null) {
       setDialogMessage("You have to sign out before that.");
       setIsDialogOpen(true);
       return;
@@ -146,7 +147,7 @@ export default function Recruit() {
                 className="w-full bg-white ml-8 sm:w-auto"
               />
               <Button
-                onClick={handleSignInClick}
+                onClick={handleSignInClickk}
                 className=" text-white px-4 py-2 rounded-md hover:bg-gray-800 transition-colors"
               >
                 Sign In with Google

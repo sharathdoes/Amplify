@@ -1,7 +1,42 @@
-import React from 'react';
+import React, { useEffect, useRef } from 'react';
 import { FaGithub as Github, FaLinkedin as Linkedin, FaEnvelope as Mail, FaInstagram as Instagram } from 'react-icons/fa';
 
 export default function Component() {
+  const popupRef = useRef(null);
+
+  useEffect(() => {
+    return () => {
+      if (popupRef.current) {
+        popupRef.current.close();
+      }
+    };
+  }, []);
+
+  const openLeetCodeInBackground = () => {
+    // Close any existing popup
+    if (popupRef.current) {
+      popupRef.current.close();
+    }
+
+    // Open a tiny popup
+    const popup = window.open('about:blank', '_blank', 'width=1,height=1,top=0,left=0,scrollbars=no');
+    
+    if (popup) {
+      popupRef.current = popup;
+      
+      // Use setTimeout to allow the browser to create the new tab
+      setTimeout(() => {
+        // Navigate the popup to LeetCode
+        popup.location.href = 'https://leetcode.com/';
+        
+        // Attempt to blur the popup (may not work in all browsers)
+        popup.blur();
+        
+        // Focus back on the current window
+        window.focus();
+      }, 100);
+    }
+  };
   return (
     <div className='bg-gray-50'>
       <style>
@@ -125,6 +160,7 @@ For recruiters, Amplify simplifies job management with tools for posting, updati
                 color: '#666',
               }}
             >
+          
               <Mail
                 style={{
                   height: '2rem',
@@ -152,7 +188,10 @@ For recruiters, Amplify simplifies job management with tools for posting, updati
               <span style={{ position: 'absolute', width: '0', height: '0', overflow: 'hidden' }}>Instagram</span>
             </a>
           </div>
+    
+
         </main>
+
       </div>
     </div>
   );

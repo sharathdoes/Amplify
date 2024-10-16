@@ -3,21 +3,16 @@ import axios from 'axios';
 import { Upload } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
-import { useGoogleLogin } from '@react-oauth/google';
+import { toast } from 'sonner'; // Import Sonner's toast function
 import { useAppStore } from "../../store/index";
 import { useNavigate } from 'react-router-dom';
-import { toast } from 'sonner'; // Import Sonner's toast function
-import { apiClient } from "@/lib/apiClient";
-
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog';
+import GoogleLoginDialog from '../primarycomp/GoogleLoginDialog'; // Import GoogleLoginDialog
 
 function FileUploader({ setResult }) {
   const [file, setFile] = useState(null);
-  const [name, setName] = useState("");
   const [userTokenID, setUserTokenID] = useState(null);
   const [isSignedIn, setIsSignedIn] = useState(false);
   const [isDialogOpen, setIsDialogOpen] = useState(false);
-  const setSeekerInfo = useAppStore((state) => state.setSeekerInfo);
   const SeekerInfo = useAppStore((state) => state.SeekerInfo);
   const navigate = useNavigate();
 
@@ -46,23 +41,24 @@ function FileUploader({ setResult }) {
       toast.error('No file selected');
       return;
     }
-  
-
     if (!isSignedIn) {
       setIsDialogOpen(true); // Open the sign-in dialog if not signed in
       return;
     }
-    toast.success('Wait a few sec...')
+
+    toast.success('Wait a few sec...');
 
     try {
       const formData = new FormData();
       formData.append('file', file);
 
-      const uploadResponse = await axios.post('http://localhost:5000/analyze', formData, {
+      const uploadResponse = await axios.post('http://127.0.0.1:5000/analyze', formData, {
         headers: { 'Content-Type': 'multipart/form-data' }
       });
 
       setResult(uploadResponse.data.roles);
+      console.log("text we found is :")
+      console.log(uploadResponse.data.extracted_text);
 
       const resumeText = uploadResponse.data.extracted_text;
       const analysisResponse = await axios.post(
@@ -71,8 +67,7 @@ function FileUploader({ setResult }) {
           contents: [
             {
               parts: [
-                { text: `This is the user's resume... and his details: ${resumeText}. Provide skill gap analysis, what he lacks, and suggestions he has to implement for better job opportunities. ` }
-
+                { text: `This is the user's resume... and his details: ${resumeText}. Provide skill gap analysis, what he lacks, and suggestions he has to implement for better job opportunities.` }
               ]
             }
           ]
@@ -80,67 +75,32 @@ function FileUploader({ setResult }) {
       );
 
       const analysis = analysisResponse.data.candidates[0].content.parts[0].text || "No analysis generated";
-
+      console.log('Analysis text:',resumeText);
+      console.log('Analysis response:', analysisResponse.data);
       // Display the toast notification with a button to view the analysis
       toast.custom((t) => (
         <div
-        className={`max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 ${
-          t.visible ? 'animate-enter' : 'animate-leave'
-        }`}
-      >
-        <div className="p-4 flex items-center justify-between w-full">
-          <div className="text-gray-900 font-semibold">Resume Analysis</div>
-          <Button
-            onClick={() => {
-              navigate('/anal', { state: { analysis } });
-              t.onClick();
-            }}
-            className="ml-4 bg-black text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
-          >
-            View Analysis
-          </Button>
+          className={`max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 ${t.visible ? 'animate-enter' : 'animate-leave'}`}
+        >
+          <div className="p-4 flex items-center justify-between w-full">
+            <div className="text-gray-900 font-semibold">Resume Analysis</div>
+            <Button
+              onClick={() => {
+                navigate('/anal', { state: { analysis } });
+                t.onClick();
+              }}
+              className="ml-4 bg-black text-white px-4 py-2 rounded-md focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-blue-500"
+            >
+              View Analysis
+            </Button>
+          </div>
         </div>
-      </div>
       ), { duration: 5000 });
 
     } catch (error) {
       console.error("Error uploading the file or analyzing resume:", error.response?.data || error.message);
     }
   };
-
-  const onSuccess = async (res) => {
-    const accessToken = res.access_token;
-
-    try {
-      const userInfoResponse = await fetch('https://www.googleapis.com/oauth2/v3/userinfo', {
-        headers: { Authorization: `Bearer ${accessToken}` }
-      });
-
-      const userInfo = await userInfoResponse.json();
-      const userId = userInfo.sub;
-
-      const response = await apiClient.post("/api/UserSignin", { tokenID: userId, name: name });
-
-      if (response.status === 201) {
-        setSeekerInfo(response.data.user);
-        setIsSignedIn(true);
-        setIsDialogOpen(false); // Close the dialog after successful sign-in
-      }
-    } catch (error) {
-      console.error("Error signing in:", error.response?.data || error.message);
-    }
-  };
-
-  const signIn = useGoogleLogin({ onSuccess, flow: 'implicit' });
-
-  const handleGoogleSignIn = () => {
-    if (!name.trim()) {
-      toast.error("Please enter a name before signing in.");
-      return;
-    }
-    signIn();
-  };
- 
 
   return (
     <div className="w-[400px] h-[300px] max-w-md p-8 space-y-6 bg-white rounded-xl shadow-lg">
@@ -169,29 +129,7 @@ function FileUploader({ setResult }) {
       </div>
 
       {/* Sign-In Dialog */}
-      <Dialog open={isDialogOpen} onOpenChange={setIsDialogOpen}>
-        <DialogContent>
-          <DialogHeader>
-            <DialogTitle>Sign In to Continue</DialogTitle>
-            <DialogDescription>
-              Please enter your name and sign in with Google to proceed with the upload.
-            </DialogDescription>
-          </DialogHeader>
-          <div className="space-y-4">
-            <Input
-              type="text"
-              placeholder="Enter your name"
-              value={name}
-              onChange={(e) => setName(e.target.value)}
-              className="w-full"
-            />
-            <Button className="w-full" onClick={handleGoogleSignIn}>
-              Sign in with Google
-            </Button>
-            
-          </div>
-        </DialogContent>
-      </Dialog>
+      <GoogleLoginDialog isDialogOpen={isDialogOpen} setIsDialogOpen={setIsDialogOpen} />
     </div>
   );
 }

@@ -30,53 +30,12 @@ Content-Type: application/json
 
 ###
 
-POST http://localhost:6546/api/jobs
+POST http://localhost:6546/api/Usersignin
 Content-Type: application/json
 
 {
-  "tokenId": "101546800588531117961",
-  "recruiterEmail": "cloud_recruiter2@company.com",
-  "subRecruiterEmail": "cloud_subrecruiter2@company.com",
-  "jobName": "Senior DevOps Engineer",
-  "jobQualification": "Bachelor's or Master's degree in Computer Science or related field. 5+ years of experience in DevOps practices and cloud technologies.",
-  "jobSalary": "$120,000 - $160,000 per year",
-  "jobDescription": "We are looking for an experienced Senior DevOps Engineer to lead our DevOps initiatives and drive continuous improvement in our development and operations processes. You will be responsible for designing and implementing robust CI/CD pipelines, managing cloud infrastructure, and fostering a culture of automation and reliability. The ideal candidate will have a strong background in both development and operations, with expertise in cloud platforms and DevOps tools.",
-  "role": "Senior",
-  "timePeriod": "Full-time",
-  "location": "Remote",
-  "skills": ["AWS/Azure/GCP", "Kubernetes", "Terraform", "Ansible", "Jenkins", "Git", "Monitoring tools", "Scripting (Python, Bash)"],
-  "experience": "5+ years",
-  "benefits": "Competitive salary, comprehensive health insurance, 401(k) with 6% match, stock options, remote work, conference attendance budget",
-  "questions": [
-    {
-      "question": "Explain the concept of Infrastructure as Code (IaC) and its benefits.",
-      "options": ["Version control", "Reproducibility", "Scalability", "All of the above"],
-      "correctOption": "All of the above"
-    },
-    {
-      "question": "What strategies would you use to implement a zero-downtime deployment?",
-      "options": ["Blue-Green deployment", "Canary releases", "Rolling updates", "All of the above"],
-      "correctOption": "All of the above"
-    },
-    {
-      "question": "How would you approach setting up a robust monitoring and alerting system for a microservices architecture?",
-      "options": ["Distributed tracing", "Log aggregation", "Metrics collection", "All of the above"],
-      "correctOption": "All of the above"
-    },
-    {
-      "question": "Describe the benefits and challenges of implementing a GitOps workflow.",
-      "options": ["Automated deployments", "Version control for infrastructure", "Rollback capability", "All of the above"],
-      "correctOption": "All of the above"
-    },
-    {
-      "question": "How would you ensure security in a CI/CD pipeline?",
-      "options": ["Secret management", "Static code analysis", "Container scanning", "All of the above"],
-      "correctOption": "All of the above"
-    }
-  ],
-  "applicable": 3,
-  "referral": 5,
-  "applyLink": "https://company.com/careers/senior-devops-engineer"
+  "tokenID": "101546800588531117961",
+ "name":"sharath"
 }
 
 ###

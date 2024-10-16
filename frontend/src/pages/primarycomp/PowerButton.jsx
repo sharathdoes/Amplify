@@ -4,7 +4,7 @@ import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription, Di
 import { useAppStore } from '../../store/index'; // Adjust the import path as needed
 import { useNavigate } from 'react-router-dom'; // Import useNavigate
 
-const PowerButton = () => {
+const SEEKpower = () => {
   const [isDialogOpen, setIsDialogOpen] = useState(false);
   const navigate = useNavigate(); // Initialize useNavigate
   const { SeekerInfo, setSeekerInfo, setRoles } = useAppStore((state) => ({
@@ -20,7 +20,7 @@ const PowerButton = () => {
 
   const handleConfirm = () => {
     // Set seekerInfo to null, clear roles, close the dialog, and redirect to /resume
-    setSeekerInfo({ tokenID: null, name: null });
+    setSeekerInfo(null);
     setRoles([]); // Clear roles
     setIsDialogOpen(false);
     const currentPath = window.location.pathname;
@@ -48,7 +48,7 @@ const PowerButton = () => {
     <>
       <button
         onClick={handleClick}
-        className="fixed bottom-4 ml-3 mb-3 left-4 p-3 bg-white shadow-lg rounded-full hover:bg-gray-100 transition duration-300"
+        className="mr-72"
       >
         <Power className="text-black w-4 h-4" />
       </button>
@@ -80,4 +80,4 @@ const PowerButton = () => {
   );
 };
 
-export default PowerButton;
+export default SEEKpower;

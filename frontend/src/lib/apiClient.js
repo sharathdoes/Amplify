@@ -1,7 +1,5 @@
 import axios from "axios";
 
 export const apiClient =axios.create({
-    baseURL:"https://amplify-seven.vercel.app",
-     withCredentials: true,
-});
+    baseURL:"http://localhost:6546"});
 

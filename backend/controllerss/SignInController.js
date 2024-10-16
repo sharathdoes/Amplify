@@ -23,10 +23,7 @@ const signIn = async (req, res) => {
         await user.save();
 
         res.status(201).json({
-            user: {
-                id: user.tokenId,
-                companyName: user.companyName,
-            },
+            user
         });
     } catch (error) {
         console.error("Error during sign-in:", error);

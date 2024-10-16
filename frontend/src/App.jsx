@@ -7,16 +7,14 @@ import Jobinput from "./pages/Recruiter/Jobinput";
 import Recruitprofile from "./pages/Recruiter/recruitprofile";
 import Jobs from "./pages/Seeker/Jobs";
 import Exam from "./pages/Seeker/exam";
-import PowerButton from "./pages/primarycomp/PowerButton";
 import UserDash from "./pages/Seeker/Homepage";
 import Analyze from "./pages/Seeker/answer";
 import UserDashboard from "./pages/Seeker/UploadResume";
 import FetchData from "./pages/Seeker/circles";
 import LoadingComponent from "./pages/primarycomp/Loading";
 import ProtectedRoute from "./pages/Protectionroute"; // Import the ProtectedRoute component
-import PowerB from "./pages/primarycomp/power";
 import FullscreenComponent from "./pages/Seeker/test";
-
+import JobSearch from "./pages/Seeker/Jobsfromapi"
 function App() {
   const [loading, setLoading] = useState(true);
 
@@ -42,6 +40,7 @@ function App() {
         <Route path="/about" element={<About />} />
         <Route path="/recruit" element={<Recruit />} />
         <Route path="/tst" element={<FullscreenComponent />} />
+        <Route path="/rapidapi" element={<JobSearch />} />
         
         {/* Protected routes for seekers */}
         <Route
@@ -56,7 +55,7 @@ function App() {
         {/* Protected routes for recruiters */}
         <Route
           path="/jobinput"
-          element={<ProtectedRoute element={<Jobinput />} recruiterOnly />}
+          element={<Jobinput />}
         />
         <Route
           path="/rprofile"
@@ -71,8 +70,7 @@ function App() {
         {/* Fallback for unknown routes */}
         <Route path="*" element={<div>404 - Page Not Found</div>} />
       </Routes>
-      <PowerButton />
-      <PowerB/>
+      
     </Router>
   );
 }

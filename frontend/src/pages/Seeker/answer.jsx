@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import axios from 'axios';
 import ReactMarkdown from 'react-markdown';
 import { toast, Toaster } from 'sonner'; // Import toast and Toaster from sonner
+import jsPDF from 'jspdf';
 
 export default function Component() {
   const [file, setFile] = useState(null);
@@ -24,6 +25,35 @@ export default function Component() {
     }
   };
 
+  const handleDrop = (event) => {
+    event.preventDefault();
+    if (event.dataTransfer.files.length) {
+      setFile(event.dataTransfer.files[0]); // Set the first dropped file
+    }
+  };
+
+  const handleDragOver = (event) => {
+    event.preventDefault(); // Prevent the default behavior (e.g., opening the file)
+  };
+
+  const downloadPDF = () => {
+    const doc = new jsPDF();
+
+    // Add title
+    doc.setFontSize(18);
+    doc.text('Skill Gap Analysis Report', 14, 22);
+
+    // Add some margin between title and text
+    doc.setFontSize(12);
+   
+    
+    doc.text(`Analysis Results:`, 14, 40);
+    console.log(analysis);
+    doc.text(analysis || 'No analysis generated', 14, 32, { maxWidth: 180 });
+
+    // Save the generated PDF
+    doc.save('analysis_report.pdf');
+  };
   const hello = async () => {
     if (!file) return;
 
@@ -34,13 +64,14 @@ export default function Component() {
       console.log('Uploading file:', file);
 
       // Upload the resume and extract the text
-      const uploadResponse = await axios.post('http://localhost:5000/analyze', formData, {
+      const uploadResponse = await axios.post('https://amplify-5.onrender.com/analyze', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
 
       const extractedText = uploadResponse.data.extracted_text;
+      console.log(extractedText)
       setResumeText(extractedText); // Set resume text
 
       // Send the extracted resume text to Google's Generative Language API for skill gap analysis
@@ -58,8 +89,9 @@ export default function Component() {
           ]
         }
       );
-
+      console.log('Analysis text:',extractedText);
       console.log('Analysis response:', analysisResponse.data);
+
       const analysisText = analysisResponse.data.candidates[0].content.parts[0].text || "No analysis generated";
       setAnalysis(analysisText); // Set the analysis result
 
@@ -95,7 +127,11 @@ export default function Component() {
         `}
       </style>
 
-      <div className="w-full max-w-2xl bg-gray-50 shadow-lg border pt-8 mb-12 rounded-xl p-8 py-2 text-center">
+      <div
+        className="w-full max-w-2xl bg-gray-50 shadow-lg border pt-8 mb-12 rounded-xl p-8 py-2 text-center"
+        onDrop={handleDrop}        // Bind the drop event to this container
+        onDragOver={handleDragOver} // Bind drag-over event here as well
+      >
         <h1 className="text-3xl font-bold mb-6">Skill Gap Analysis</h1>
         
         <form onSubmit={handleSubmit} className="mb-10">
@@ -118,14 +154,15 @@ export default function Component() {
           </Button>
         </form>
 
-   
-
         {analysis && (
           <div className="bg-gray-50 shadow-md rounded-lg mb-6 p-6 text-left mt-6">
             <h2 className="text-xl font-semibold mb-4 pb-4 text-center ">Analysis Results</h2>
             <ReactMarkdown className="prose prose-lg text-gray-700">
               {analysis}
             </ReactMarkdown>
+            <Button onClick={downloadPDF} className="w-full mt-4 bg-black text-white py-3 rounded-lg">
+              Download PDF
+            </Button>
           </div>
         )}
       </div>
