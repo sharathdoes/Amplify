@@ -16,8 +16,8 @@ const JobSearch = () => {
       },
       body: JSON.stringify({
         search_term: "web",
-        location: "mumbai",
-        results_wanted: 10,
+        location: "hyderabad",
+        results_wanted: 30,
         site_name: ["indeed", "linkedin", "zip_recruiter", "glassdoor"],
         distance: 50,
         job_type: "fulltime",
@@ -33,26 +33,27 @@ const JobSearch = () => {
         options
       );
       if (!response.ok) {
-        throw new Error("Failed to fetch jobs");
+        console.error("Failed to fetch jobs, retaining old ones.");
+        return; // Keep existing jobs if the request fails
       }
       const data = await response.json();
       if (data.jobs && data.jobs.length > 0) {
-        setRapidApiJobs(data.jobs); // Update the Zustand store only if jobs are found
+        setRapidApiJobs(data.jobs); // Only update jobs if new data is available
       } else {
-        console.warn("No jobs found in the API response."); // Log to warn about no jobs found
+        console.warn("No new jobs found, retaining old ones.");
       }
     } catch (err) {
-      console.error(err.message);
-      // Optionally, you can retry fetching jobs or keep the previous jobs in case of an error.
+      console.error("Error fetching jobs:", err.message);
     }
   };
 
   // Automatically fetch jobs every day
   useEffect(() => {
-    fetchJobs(); // Initial call
-    const intervalId = setInterval(fetchJobs, 24 * 60 * 60 * 1000); // Call every day
+    fetchJobs(); // Initial call to fetch jobs
 
-    return () => clearInterval(intervalId); // Cleanup on unmount
+    const intervalId = setInterval(fetchJobs, 60 * 1000); // Fetch jobs every 24 hours
+
+    return () => clearInterval(intervalId); // Cleanup interval on component unmount
   }, []);
 
   return (
@@ -77,7 +78,7 @@ const JobSearch = () => {
             </Card>
           ))
         ) : (
-          <p>No jobs found. Please check back later!</p>
+          <p>Loading jobs, please wait...</p>
         )}
       </div>
     </div>

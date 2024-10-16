@@ -19,9 +19,46 @@ console.log(rapidApiJobs)
     setSelectedJob(null);
   };
 
+  const dummyJobs = [
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Full Stack Developer", company_name: "Innovate Inc", company_url: "https://innovateinc.com", job_url: "https://innovateinc.com/careers/fullstack", location: "San Francisco", company_addresses: "789 Innovate Ave" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Full Stack Developer", company_name: "Innovate Inc", company_url: "https://innovateinc.com", job_url: "https://innovateinc.com/careers/fullstack", location: "San Francisco", company_addresses: "789 Innovate Ave" },
+    { title: "Full Stack Developer", company_name: "Innovate Inc", company_url: "https://innovateinc.com", job_url: "https://innovateinc.com/careers/fullstack", location: "San Francisco", company_addresses: "789 Innovate Ave" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    { title: "Frontend Developer", company_name: "Tech Solutions", company_url: "https://techsolutions.com", job_url: "https://techsolutions.com/careers/frontend", location: "Remote", company_addresses: "123 Tech Lane" },
+    { title: "Backend Developer", company_name: "Dev Corp", company_url: "https://devcorp.com", job_url: "https://devcorp.com/careers/backend", location: "New York", company_addresses: "456 Dev St" },
+    
+    { title: "Full Stack Developer", company_name: "Innovate Inc", company_url: "https://innovateinc.com", job_url: "https://innovateinc.com/careers/fullstack", location: "San Francisco", company_addresses: "789 Innovate Ave" },
+    { title: "Full Stack Developer", company_name: "Innovate Inc", company_url: "https://innovateinc.com", job_url: "https://innovateinc.com/careers/fullstack", location: "San Francisco", company_addresses: "789 Innovate Ave" },
+  ];
+
   // Slicing the jobs list into two rows
-  const firstRow = rapidApiJobs.slice(0, Math.ceil(rapidApiJobs.length / 2));
-  const secondRow = rapidApiJobs.slice(Math.ceil(rapidApiJobs.length / 2));
+  const jobsToDisplay = rapidApiJobs.length > 0 ? rapidApiJobs : dummyJobs;
+  // Slicing the jobs list into two rows
+  const firstRow = jobsToDisplay.slice(0, Math.ceil(jobsToDisplay.length / 2));
+  const secondRow = jobsToDisplay.slice(Math.ceil(jobsToDisplay.length / 2));
 
   // ReviewCard component displaying job details
   const ReviewCard = ({ job }) => {
@@ -67,10 +104,7 @@ console.log(rapidApiJobs)
     return queue;
   };
 
-  // Check for available jobs
-  if (!rapidApiJobs || rapidApiJobs.length === 0) {
-    return <p>No jobs found.</p>;
-  }
+ 
 
   const firstRowQueue = useCircularQueue(firstRow);
   const secondRowQueue = useCircularQueue(secondRow);

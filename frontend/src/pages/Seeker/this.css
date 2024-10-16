@@ -18,7 +18,7 @@
 
 /* First row animation */
 .track {
-  animation: marquee 200s linear infinite;
+  animation: marquee 175s linear infinite;
 }
 
 .track:hover {
@@ -36,7 +36,7 @@
 }
 
 .second-row {
-  animation: marquee-second-row 200s linear infinite; /* Use the new keyframes */
+  animation: marquee-second-row 170s linear infinite; /* Use the new keyframes */
 }
 
 .second-row:hover {
