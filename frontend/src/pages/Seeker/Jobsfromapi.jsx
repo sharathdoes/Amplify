@@ -36,16 +36,21 @@ const JobSearch = () => {
         throw new Error("Failed to fetch jobs");
       }
       const data = await response.json();
-      setRapidApiJobs(data.jobs || []); // Update the Zustand store
+      if (data.jobs && data.jobs.length > 0) {
+        setRapidApiJobs(data.jobs); // Update the Zustand store only if jobs are found
+      } else {
+        console.warn("No jobs found in the API response."); // Log to warn about no jobs found
+      }
     } catch (err) {
       console.error(err.message);
+      // Optionally, you can retry fetching jobs or keep the previous jobs in case of an error.
     }
   };
 
-  // Automatically fetch jobs every two days
+  // Automatically fetch jobs every day
   useEffect(() => {
     fetchJobs(); // Initial call
-    const intervalId = setInterval(fetchJobs, 2 * 24 * 60 * 60 * 1000); // Call every 2 days
+    const intervalId = setInterval(fetchJobs, 24 * 60 * 60 * 1000); // Call every day
 
     return () => clearInterval(intervalId); // Cleanup on unmount
   }, []);
@@ -72,7 +77,7 @@ const JobSearch = () => {
             </Card>
           ))
         ) : (
-          <p>No jobs found.</p>
+          <p>No jobs found. Please check back later!</p>
         )}
       </div>
     </div>

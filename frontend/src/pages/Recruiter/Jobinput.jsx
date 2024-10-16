@@ -97,7 +97,7 @@ export default function Jobinput() {
   
     try {
       // Loop 10 times for 100 questions
-        const response = await apiClient.post(
+        const response = await axios.post(
           "https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyA2Akt5sQLfZqAC4ol1ayeJBueLOMzBIcQ",
           {
             contents: [

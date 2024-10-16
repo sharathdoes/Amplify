@@ -162,7 +162,7 @@ console.log(response.data.user)
             <img
               src={ab}
               alt="Hiring illustration"
-              className="w-full h-auto max-w-[700px] max-h-[540px] rounded-xl"
+              className="w-full mt-10 h-auto max-w-[700px] max-h-[540px] rounded-xl"
             />
           </motion.div>
         </motion.div>
