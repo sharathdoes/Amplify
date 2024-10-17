@@ -6,7 +6,7 @@ Amplify connects eligible job seekers with **"Referral"** opportunities through 
 The platform is hosted at: [Amplify](https://amplify-4.onrender.com)
 & Flask server is hosted at [here](https://amplify-5.onrender.com) ( first run flask server )
 
-![image](https://github.com/user-attachments/assets/1894d6fd-7e28-42bb-80be-430038b2769e)
+![image](https://github.com/user-attachments/assets/8a1d7fc0-9eed-4a76-b489-edd28d653132)
 
 ## Table of Contents
 
