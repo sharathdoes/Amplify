@@ -1,7 +1,7 @@
 
 # Amplify - Job Optimization Platform
 
-Amplify is an innovative platform designed to bridge the gap between job seekers and recruiters using machine learning models, mock assessments, and optimized job matching. The platform tailors job opportunities to the users' unique skill sets, providing them with personalized career guidance and if passed in test, referrals.
+Amplify connects eligible job seekers with referral opportunities through machine learning assessments, streamlining the path to employment for qualified candidates.
 
 The platform is hosted at: [Amplify](https://amplify-4.onrender.com)
 & Flask server is hosted at [here](https://amplify-5.onrender.com) ( first run flask server )
@@ -24,13 +24,13 @@ The platform is hosted at: [Amplify](https://amplify-4.onrender.com)
   
 ## Overview
 
-Amplify provides a seamless experience for job seekers to discover and apply for jobs tailored to their skills. Recruiters can manage job postings and match qualified candidates using our machine learning-powered system. The platform ensures that job seekers improve their chances by taking mock tests and optimizing their resumes for better visibility to recruiters.
+Amplify is an innovative platform designed to fill a crucial gap in the job market by offering a dedicated referral system for qualified candidates. Unlike traditional job platforms, Amplify focuses on connecting eligible job seekers with referral opportunities. Using advanced machine learning models and tailored assessments, Amplify evaluates users' skills and qualifications. Upon successfully passing these assessments, candidates receive referrals from industry professionals, offering a direct and trusted pathway to employment. 
 
 ## Features
 
 ### For Job Seekers
 
-1. **Resume Upload & Analysis**: Upload your resume, and our machine learning algorithms will analyze and suggest improvements to match the best job opportunities.
+1. **Resume Upload & Analysis**: Upload your resume, our machine learning algorithms will analyze to match the best carreer paths.
 2. **Mock Test**: Take a mock test designed to evaluate your readiness for job roles. Your test score impacts your ability to apply for specific jobs.
 3. **Job Recommendations**: Receive personalized job recommendations based on your resume and test results.
 4. **Referral System**: Unlock referral options after completing the mock test.
