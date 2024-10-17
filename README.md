@@ -1,7 +1,7 @@
 
 # Amplify - Job Optimization Platform
 
-Amplify connects eligible job seekers with referral opportunities through machine learning assessments, streamlining the path to employment for qualified candidates.
+Amplify connects eligible job seekers with **"Referral"** opportunities through mock assessments, streamlining the path to employment for qualified & eligible candidates.
 
 The platform is hosted at: [Amplify](https://amplify-4.onrender.com)
 & Flask server is hosted at [here](https://amplify-5.onrender.com) ( first run flask server )
