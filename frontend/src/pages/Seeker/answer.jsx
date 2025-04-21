@@ -76,19 +76,20 @@ export default function Component() {
 
       // Send the extracted resume text to Google's Generative Language API for skill gap analysis
       const analysisResponse = await axios.post(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCcgYrkZZYfcUSUa4vHbip6Vq8zmMxHKMw',
-        {
-          contents: [
-            {
-              parts: [
-                {
-                  text: `This is the user's resume, and his details: ${extractedText}. Provide skill gap analysis, what he lacks, and suggestions he has to implement for better job opportunities.`
-                }
-              ]
-            }
-          ]
-        }
-      );
+  'https://generativelanguage.googleapis.com/v1/models/gemini-pro:generateContent?key=YOUR_API_KEY',
+  {
+    contents: [
+      {
+        parts: [
+          {
+            text: `This is the user's resume, and his details: ${extractedText}. Provide skill gap analysis, what he lacks, and suggestions he has to implement for better job opportunities.`
+          }
+        ]
+      }
+    ]
+  }
+);
+
       console.log('Analysis text:',extractedText);
       console.log('Analysis response:', analysisResponse.data);
 
