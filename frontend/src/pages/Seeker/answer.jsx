@@ -76,7 +76,7 @@ export default function Component() {
 
       // Send the extracted resume text to Google's Generative Language API for skill gap analysis
       const analysisResponse = await axios.post(
-        'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyAp-XHDUyaRo_qH9LLowS_kKdY25p7-JSY',
+        'https://generativelanguage.googleapis.com/v1beta/models/gemini-pro:generateContent?key=AIzaSyCcgYrkZZYfcUSUa4vHbip6Vq8zmMxHKMw',
         {
           contents: [
             {
